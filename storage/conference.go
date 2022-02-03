@@ -32,6 +32,12 @@ type ConferenceRepository struct {
 	storage *Storage
 }
 
+func NewConferenceRepository(s *Storage) IConferenceRepository {
+	return &ConferenceRepository{
+		storage: s,
+	}
+}
+
 func (c *ConferenceRepository) WithTx(db *gorm.DB) IConferenceRepository {
 	return &ConferenceRepository{
 		storage: &Storage{
