@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/iamnator/conference_mgmt_sys/model"
-	"github.com/iamnator/conference_mgmt_sys/storage"
+	"conference/model"
+	"conference/storage"
 )
 
 //go:generate mockgen -source service.go -destination ./mock/service.go -package mock IService

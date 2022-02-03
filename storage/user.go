@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"github.com/iamnator/conference_mgmt_sys/model"
+	"conference/model"
 	"gorm.io/gorm"
 )
 

@@ -1,9 +1,13 @@
 package service
 
-import "github.com/iamnator/conference_mgmt_sys/model"
+import "conference/model"
 
 func (c *Service) Login(req model.UserLoginReq) (*model.UserAuthResponse, error) {
-	return &model.UserAuthResponse{}, nil
+	user, _ := c.userRepo.GetUserByEmail(req.Email)
+
+	return &model.UserAuthResponse{
+		User: *user,
+	}, nil
 }
 
 func (c *Service) RegisterUser(req model.UserSignUpReq) (*model.UserAuthResponse, error) {

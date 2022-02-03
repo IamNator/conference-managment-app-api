@@ -1,0 +1,27 @@
+mode: atomic
+conference/storage/conference.go:35.74,41.2 1 0
+conference/storage/conference.go:45.103,47.2 1 0
+conference/storage/conference.go:49.105,51.2 1 0
+conference/storage/conference.go:53.113,55.2 1 0
+conference/storage/conference.go:57.97,59.2 1 0
+conference/storage/conference.go:63.79,65.2 1 0
+conference/storage/conference.go:67.102,69.2 1 0
+conference/storage/conference.go:71.81,73.2 1 0
+conference/storage/conference.go:77.91,79.2 1 0
+conference/storage/conference.go:81.99,83.2 1 0
+conference/storage/conference.go:85.76,87.2 1 0
+conference/storage/conference.go:91.107,93.2 1 0
+conference/storage/conference.go:95.103,97.2 1 0
+conference/storage/conference.go:99.84,101.2 1 0
+conference/storage/conference.go:103.81,105.2 1 0
+conference/storage/conference.go:107.115,109.2 1 0
+conference/storage/storage.go:9.21,11.2 1 0
+conference/storage/user.go:20.52,24.2 1 0
+conference/storage/user.go:26.62,32.2 1 0
+conference/storage/user.go:34.75,36.2 1 0
+conference/storage/user.go:38.76,42.2 1 0
+conference/storage/user.go:44.75,46.2 1 0
+conference/service/conference.go:5.101,12.2 1 0
+conference/service/user.go:5.82,11.2 2 0
+conference/service/user.go:13.90,15.2 1 0
+conference/service/user.go:17.48,19.2 1 0
