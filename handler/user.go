@@ -52,7 +52,7 @@ func (h *Handlers) RegisterUser(ctx *gin.Context) {
 
 func (h *Handlers) LogOutUser(ctx *gin.Context) {
 	var Req model.UserLogOutReq
-	if er := ctx.BindQuery(&Req); er != nil {
+	if er := ctx.BindJSON(&Req); er != nil {
 		ctx.String(http.StatusBadRequest, er.Error())
 		return
 	}

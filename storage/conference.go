@@ -55,7 +55,11 @@ func (c *ConferenceRepository) CreateConference(conference model.Conference) (*m
 }
 
 func (c *ConferenceRepository) UpdateConference(conference model.Conference) (*model.Conference, error) {
-	return &conference, c.storage.db.Where("id = ?", conference.ID).Updates(&conference).Error
+	er := c.storage.db.Where("id = ?", conference.ID).Updates(&conference).First(&conference).Error
+	if er != nil {
+		return nil, er
+	}
+	return &conference, nil
 }
 
 func (c *ConferenceRepository) GetConference(conferenceId uint, page, pageSize int) ([]model.Conference, error) {
@@ -76,17 +80,21 @@ func (c *ConferenceRepository) CreateTalk(talk model.Talk) (*model.Talk, error) 
 
 func (c *ConferenceRepository) GetTalks(conferenceId uint, page, pageSize int) ([]model.Talk, error) {
 	var talks []model.Talk
-	return talks, c.storage.db.Scopes(model.Paginate(page, pageSize)).Find(&talks).Error
+	return talks, c.storage.db.Scopes(model.Paginate(page, pageSize)).Where("conference_id = ? ", conferenceId).Find(&talks).Error
 }
 
 func (c *ConferenceRepository) UpdateTalk(talk model.Talk) (*model.Talk, error) {
-	return &talk, c.storage.db.Where("id = ?", talk.ID).Updates(&talk).Error
+	er := c.storage.db.Where("id = ? AND conference_id = ? ", talk.General.ID, talk.ConferenceID).Updates(&talk).First(&talk).Error
+	if er != nil {
+		return nil, er
+	}
+	return &talk, nil
 }
 
 //SPEAKERS
 
 func (c *ConferenceRepository) CreateSpeaker(speaker model.Speaker) (*model.Speaker, error) {
-	return &speaker, c.storage.db.Create(&speaker).Error
+	return &speaker, c.storage.db.Where("username = ? AND email = ?", speaker.Username, speaker.Email).FirstOrCreate(&speaker).Error
 }
 
 func (c *ConferenceRepository) GetSpeakers(TalkId uint, page, pageSize int) ([]model.Speaker, error) {
@@ -101,7 +109,7 @@ func (c *ConferenceRepository) DeleteSpeaker(speakerId, talkId uint) error {
 // PARTICIPANTS
 
 func (c *ConferenceRepository) CreateParticipant(participant model.Participant) (*model.Participant, error) {
-	return &participant, c.storage.db.Create(&participant).Error
+	return &participant, c.storage.db.Where("username = ? AND email = ?", participant.Username, participant.Email).FirstOrCreate(&participant).Error
 }
 
 func (c *ConferenceRepository) GetParticipants(TalkId uint, page, pageSize int) ([]model.Participant, error) {

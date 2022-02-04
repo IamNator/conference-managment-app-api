@@ -29,25 +29,15 @@ type (
 	}
 
 	Speaker struct {
+		General
 		TalkID   uint   `json:"talk_id"`
 		Username string `json:"username"`
 		Email    string `json:"email"`
 		UserID   *uint  `json:"user_id"`
 	}
 
-	GetSpeakerReq struct {
-		TalkId   uint `json:"talk_id" form:"talk_id"`
-		Page     int  `json:"page" form:"page"`
-		PageSize int  `json:"page_size" form:"page_size"`
-	}
-
-	GetParticipantReq struct {
-		TalkId   uint `json:"talk_id" form:"talk_id"`
-		Page     int  `json:"page" form:"page"`
-		PageSize int  `json:"page_size" form:"page_size"`
-	}
-
 	Participant struct {
+		General
 		TalkID   uint   `json:"talk_id"`
 		Username string `json:"username"`
 		Email    string `json:"email"`
@@ -66,23 +56,23 @@ type (
 	}
 )
 
-func (c Conference) Table(tx *gorm.DB) string {
+func (c Conference) TableName(tx *gorm.DB) string {
 	return "conference"
 }
 
-func (t Talk) Table(tx *gorm.DB) string {
+func (t Talk) TableName(tx *gorm.DB) string {
 	return "talk"
 }
 
-func (s Speaker) Table(tx *gorm.DB) string {
+func (s Speaker) TableName(tx *gorm.DB) string {
 	return "speaker"
 }
 
-func (s Participant) Table(tx *gorm.DB) string {
+func (s Participant) TableName(tx *gorm.DB) string {
 	return "participant"
 }
 
-func (e EditHistory) Table(tx *gorm.DB) string {
+func (e EditHistory) TableName(tx *gorm.DB) string {
 	return "edit_history"
 }
 
@@ -122,6 +112,18 @@ type (
 		Description  string    `json:"description"`
 		StartDate    time.Time `json:"start_date"`
 		EndDate      time.Time `json:"end_date"`
+	}
+
+	GetSpeakerReq struct {
+		TalkId   uint `json:"talk_id" form:"talk_id"`
+		Page     int  `json:"page" form:"page"`
+		PageSize int  `json:"page_size" form:"page_size"`
+	}
+
+	GetParticipantReq struct {
+		TalkId   uint `json:"talk_id" form:"talk_id"`
+		Page     int  `json:"page" form:"page"`
+		PageSize int  `json:"page_size" form:"page_size"`
 	}
 
 	CreateTalkReq struct {
@@ -197,8 +199,8 @@ type (
 func (g GetEditHistoryReq) Validate() error {
 	return validation.ValidateStruct(&g,
 		validation.Field(&g.ConferenceId, validation.Required),
-		validation.Field(&g.Page, validation.Required),
-		validation.Field(&g.PageSize, validation.Required),
+		//validation.Field(&g.Page, validation.Required),
+		//validation.Field(&g.PageSize, validation.Required),
 	)
 }
 
@@ -206,16 +208,13 @@ func (g GetEditHistoryReq) Validate() error {
 func (g GetTalkReq) Validate() error {
 	return validation.ValidateStruct(&g,
 		validation.Field(&g.ConferenceId, validation.Required),
-		validation.Field(&g.Page, validation.Required),
-		validation.Field(&g.PageSize, validation.Required),
+		//validation.Field(&g.Page, validation.Required),
+		//validation.Field(&g.PageSize, validation.Required),
 	)
 }
 
 func (g GetConferenceReq) Validate() error {
-	return validation.ValidateStruct(&g,
-		validation.Field(&g.Page, validation.Required),
-		validation.Field(&g.PageSize, validation.Required),
-	)
+	return validation.ValidateStruct(&g)
 }
 
 func (c CreateConferenceReq) Validate() error {
@@ -261,8 +260,6 @@ func (c UpdateTalkReq) Validate() error {
 func (g GetSpeakerReq) Validate() error {
 	return validation.ValidateStruct(&g,
 		validation.Field(&g.TalkId, validation.Required),
-		validation.Field(&g.Page, validation.Required),
-		validation.Field(&g.PageSize, validation.Required),
 	)
 }
 
@@ -292,8 +289,6 @@ func (r RemoveSpeakerReq) Validate() error {
 func (g GetParticipantReq) Validate() error {
 	return validation.ValidateStruct(&g,
 		validation.Field(&g.TalkId, validation.Required),
-		validation.Field(&g.Page, validation.Required),
-		validation.Field(&g.PageSize, validation.Required),
 	)
 }
 

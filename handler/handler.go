@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"conference/pkg/middleware"
 	"conference/service"
 	"github.com/gin-gonic/gin"
 )
@@ -32,11 +33,13 @@ type IHandler interface {
 type Handlers struct {
 	userSrv service.IUserService
 	confSrv service.IConferenceService
+	midWare *middleware.Middleware
 }
 
 func NewHandler(uSrv service.IUserService, cSrv service.IConferenceService) IHandler {
 	return &Handlers{
 		userSrv: uSrv,
 		confSrv: cSrv,
+		midWare: middleware.NewMiddleWare(),
 	}
 }

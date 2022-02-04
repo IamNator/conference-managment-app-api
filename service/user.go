@@ -2,6 +2,7 @@ package service
 
 import (
 	"conference/model"
+	"conference/pkg/middleware"
 	"conference/storage"
 	"errors"
 )
@@ -15,11 +16,13 @@ type IUserService interface {
 
 type UserService struct {
 	UserRepo storage.IUserRepository
+	midWare  *middleware.Middleware
 }
 
 func NewUserService(s *storage.Storage) IUserService {
 	return &UserService{
 		UserRepo: storage.NewUserRepository(s),
+		midWare:  middleware.NewMiddleWare(),
 	}
 }
 
@@ -34,18 +37,18 @@ func (c *UserService) Login(req model.UserLoginReq) (*model.UserAuthResponse, er
 		return nil, errors.New("incorrect login details")
 	}
 
-	//TODO
-	//add auth
+	auth, er := c.midWare.GenerateToken(*user)
+	if er != nil {
+		return nil, er
+	}
 
-	return &model.UserAuthResponse{
-		User: *user,
-	}, nil
+	return auth, nil
 }
 
 func (c *UserService) RegisterUser(req model.UserSignUpReq) (*model.UserAuthResponse, error) {
 
-	user, _ := c.UserRepo.GetUserByEmail(req.Email)
-	if user != nil {
+	user, err := c.UserRepo.GetUserByEmail(req.Email)
+	if user != nil && err == nil {
 		return nil, errors.New("email already exists")
 	}
 
@@ -58,12 +61,13 @@ func (c *UserService) RegisterUser(req model.UserSignUpReq) (*model.UserAuthResp
 		return nil, er
 	}
 
-	//TODO
-	//add auth
+	///add auth
+	auth, er := c.midWare.GenerateToken(*user)
+	if er != nil {
+		return nil, er
+	}
 
-	return &model.UserAuthResponse{
-		User: *user,
-	}, nil
+	return auth, nil
 }
 
 func (c *UserService) LogOut(refreshToken, accessToken string) error {
