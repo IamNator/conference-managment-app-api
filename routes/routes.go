@@ -3,17 +3,31 @@ package routes
 import (
 	"conference/handler"
 	"fmt"
+	"github.com/Nebulizer1213/GinRateLimit"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
 	"strings"
 )
 
+func keyFunc(c *gin.Context) string {
+	return c.ClientIP()
+}
+
+func errorHandler(c *gin.Context) {
+	c.String(http.StatusTooManyRequests, "Too many requests")
+}
+
 func Run(h handler.IHandler, port string) error {
 	if !strings.Contains(port, ":") {
 		port = ":" + port
 	}
+
+	storeRateLimit := GinRateLimit.InMemoryStore(1, 5)
+	rateLimitMiddleware := GinRateLimit.RateLimiter(keyFunc, errorHandler, storeRateLimit)
+
 	router := gin.Default()
+	router.Use(rateLimitMiddleware)
 	router.GET("", func(ctx *gin.Context) {
 		docs := os.Getenv("API_DOCS_URL")
 		ctx.Data(http.StatusOK, "text/html", []byte(fmt.Sprintf(`<html><head><a href="%s">click here for docs</a></head></html>`, docs)))
@@ -27,6 +41,8 @@ func Run(h handler.IHandler, port string) error {
 	userRouter.POST("/register", h.RegisterUser)
 	userRouter.POST("/login", h.LoginUser)
 	userRouter.POST("/logout", h.LogOutUser)
+
+	confRouter.GET("/history", h.GetEditHistory)
 
 	confRouter.POST("", h.CreateConference)
 	confRouter.PUT("", h.UpdateConference)

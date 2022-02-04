@@ -24,7 +24,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	store := storage.New()
-	//if er := store.RunMigration(); er != nil {
+	//if er := store.RunMigration(); er != nil { //
 	//	logger.Fatal().Err(er).Msg("database migration failed")
 	//}
 	userSrv := service.NewUserService(store)

@@ -14,7 +14,10 @@ require (
 	gorm.io/gorm v1.22.5
 )
 
-require github.com/dgrijalva/jwt-go v3.2.0+incompatible
+require (
+	github.com/Nebulizer1213/GinRateLimit v1.0.5
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+)
 
 require (
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect

@@ -2,12 +2,18 @@ package handler
 
 import (
 	"conference/model"
+	"conference/pkg/helper"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strings"
 )
 
 func (h *Handlers) CreateConference(ctx *gin.Context) {
+
+	user, er := h.midWare.Verify(helper.GetBearerToken(ctx))
+	if er != nil {
+		ctx.String(http.StatusUnauthorized, er.Error())
+		return
+	}
 
 	var Req model.CreateConferenceReq
 	if er := ctx.BindJSON(&Req); er != nil {
@@ -20,7 +26,7 @@ func (h *Handlers) CreateConference(ctx *gin.Context) {
 		return
 	}
 
-	conf, er := h.confSrv.CreateConference(Req)
+	conf, er := h.confSrv.CreateConference(user.Username, Req)
 	if er != nil {
 		ctx.String(http.StatusUnprocessableEntity, er.Error())
 		return
@@ -29,6 +35,12 @@ func (h *Handlers) CreateConference(ctx *gin.Context) {
 }
 
 func (h *Handlers) UpdateConference(ctx *gin.Context) {
+	user, er := h.midWare.Verify(helper.GetBearerToken(ctx))
+	if er != nil {
+		ctx.String(http.StatusUnauthorized, er.Error())
+		return
+	}
+
 	var Req model.UpdateConferenceReq
 	if er := ctx.BindJSON(&Req); er != nil {
 		ctx.String(http.StatusBadRequest, er.Error())
@@ -40,7 +52,7 @@ func (h *Handlers) UpdateConference(ctx *gin.Context) {
 		return
 	}
 
-	conf, er := h.confSrv.UpdateConference(Req)
+	conf, er := h.confSrv.UpdateConference(user.Username, Req)
 	if er != nil {
 		ctx.String(http.StatusUnprocessableEntity, er.Error())
 		return
@@ -49,6 +61,12 @@ func (h *Handlers) UpdateConference(ctx *gin.Context) {
 	ctx.JSONP(http.StatusOK, conf)
 }
 func (h *Handlers) CreateTalk(ctx *gin.Context) {
+	user, er := h.midWare.Verify(helper.GetBearerToken(ctx))
+	if er != nil {
+		ctx.String(http.StatusUnauthorized, er.Error())
+		return
+	}
+
 	var Req model.CreateTalkReq
 	if er := ctx.BindJSON(&Req); er != nil {
 		ctx.String(http.StatusBadRequest, er.Error())
@@ -60,7 +78,7 @@ func (h *Handlers) CreateTalk(ctx *gin.Context) {
 		return
 	}
 
-	talk, er := h.confSrv.CreateTalk(Req)
+	talk, er := h.confSrv.CreateTalk(user.Username, Req)
 	if er != nil {
 		ctx.String(http.StatusUnprocessableEntity, er.Error())
 		return
@@ -70,6 +88,12 @@ func (h *Handlers) CreateTalk(ctx *gin.Context) {
 }
 
 func (h *Handlers) UpdateTalk(ctx *gin.Context) {
+	user, er := h.midWare.Verify(helper.GetBearerToken(ctx))
+	if er != nil {
+		ctx.String(http.StatusUnauthorized, er.Error())
+		return
+	}
+
 	var Req model.UpdateTalkReq
 	if er := ctx.BindJSON(&Req); er != nil {
 		ctx.String(http.StatusBadRequest, er.Error())
@@ -81,7 +105,7 @@ func (h *Handlers) UpdateTalk(ctx *gin.Context) {
 		return
 	}
 
-	talk, er := h.confSrv.UpdateTalk(Req)
+	talk, er := h.confSrv.UpdateTalk(user.Username, Req)
 	if er != nil {
 		ctx.String(http.StatusUnprocessableEntity, er.Error())
 		return
@@ -92,8 +116,7 @@ func (h *Handlers) UpdateTalk(ctx *gin.Context) {
 
 func (h *Handlers) AddSpeaker(ctx *gin.Context) {
 
-	authToken := strings.TrimSpace(strings.Replace(ctx.GetHeader("Authorization"), "Bearer", "", -1))
-	userId, er := h.midWare.Verify(authToken)
+	user, er := h.midWare.Verify(helper.GetBearerToken(ctx))
 	if er != nil {
 		ctx.String(http.StatusUnauthorized, er.Error())
 		return
@@ -110,7 +133,7 @@ func (h *Handlers) AddSpeaker(ctx *gin.Context) {
 		return
 	}
 
-	speaker, er := h.confSrv.AddSpeaker(*userId, Req)
+	speaker, er := h.confSrv.AddSpeaker(user.Username, Req)
 	if er != nil {
 		ctx.String(http.StatusUnprocessableEntity, er.Error())
 		return
@@ -142,6 +165,12 @@ func (h *Handlers) GetSpeaker(ctx *gin.Context) {
 }
 
 func (h *Handlers) RemoveSpeaker(ctx *gin.Context) {
+	user, er := h.midWare.Verify(helper.GetBearerToken(ctx))
+	if er != nil {
+		ctx.String(http.StatusUnauthorized, er.Error())
+		return
+	}
+
 	var Req model.RemoveSpeakerReq
 	if er := ctx.BindQuery(&Req); er != nil {
 		ctx.String(http.StatusBadRequest, er.Error())
@@ -153,7 +182,7 @@ func (h *Handlers) RemoveSpeaker(ctx *gin.Context) {
 		return
 	}
 
-	er := h.confSrv.RemoveSpeaker(Req.SpeakerID, Req.TalkID)
+	er = h.confSrv.RemoveSpeaker(user.Username, Req.ConferenceId, Req.SpeakerID, Req.TalkID)
 	if er != nil {
 		ctx.String(http.StatusUnprocessableEntity, er.Error())
 		return
@@ -164,8 +193,7 @@ func (h *Handlers) RemoveSpeaker(ctx *gin.Context) {
 
 func (h *Handlers) AddParticipant(ctx *gin.Context) {
 
-	authToken := strings.TrimSpace(strings.Replace(ctx.GetHeader("Authorization"), "Bearer", "", -1))
-	userId, er := h.midWare.Verify(authToken)
+	user, er := h.midWare.Verify(helper.GetBearerToken(ctx))
 	if er != nil {
 		ctx.String(http.StatusUnauthorized, er.Error())
 		return
@@ -181,7 +209,7 @@ func (h *Handlers) AddParticipant(ctx *gin.Context) {
 		ctx.String(http.StatusBadRequest, er.Error())
 		return
 	}
-	participant, er := h.confSrv.AddParticipant(*userId, Req)
+	participant, er := h.confSrv.AddParticipant(user.Username, Req)
 	if er != nil {
 		ctx.String(http.StatusUnprocessableEntity, er.Error())
 		return
@@ -192,6 +220,12 @@ func (h *Handlers) AddParticipant(ctx *gin.Context) {
 }
 
 func (h *Handlers) RemoveParticipant(ctx *gin.Context) {
+	user, er := h.midWare.Verify(helper.GetBearerToken(ctx))
+	if er != nil {
+		ctx.String(http.StatusUnauthorized, er.Error())
+		return
+	}
+
 	var Req model.RemoveParticipantReq
 	if er := ctx.BindQuery(&Req); er != nil {
 		ctx.String(http.StatusBadRequest, er.Error())
@@ -203,7 +237,7 @@ func (h *Handlers) RemoveParticipant(ctx *gin.Context) {
 		return
 	}
 
-	er := h.confSrv.RemoveParticipant(Req.ParticipantID, Req.TalkID)
+	er = h.confSrv.RemoveParticipant(user.Username, Req.ConferenceId, Req.ParticipantID, Req.TalkID)
 	if er != nil {
 		ctx.String(http.StatusUnprocessableEntity, er.Error())
 		return

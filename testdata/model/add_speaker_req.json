@@ -9,6 +9,7 @@
   {
     "req": {
       "talk_id": 433,
+      "conference_id": 5232,
       "username": "Afdafdierjn",
       "email": "ralphshanahan@schumm.io"
     }
@@ -16,6 +17,7 @@
   {
     "req": {
       "talk_id": 33433,
+      "conference_id": 5232,
       "username": "Apackrarelydance",
       "email": "ralphshanahan@schumm.io"
     }
@@ -23,6 +25,7 @@
   {
     "req": {
       "talk_id": 34343333,
+      "conference_id": 5232,
       "username": "Athesleepychest.",
       "email": "ralphshanahan@schumm.io"
     }
@@ -30,6 +33,7 @@
   {
     "error": "talk_id: cannot be blank.",
     "req": {
+      "conference_id": 5232,
       "username": "AsleepyChest42.",
       "email": "ralphshanahan@schumm.io"
     }

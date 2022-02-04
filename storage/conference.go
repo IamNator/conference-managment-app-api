@@ -2,7 +2,10 @@ package storage
 
 import (
 	"conference/model"
+	"errors"
+	"github.com/rs/zerolog"
 	"gorm.io/gorm"
+	"os"
 )
 
 //go:generate mockgen -source conference.go -destination ./mock/conference.go -package mock IConferenceRepository
@@ -32,11 +35,15 @@ type IConferenceRepository interface {
 
 type ConferenceRepository struct {
 	storage *Storage
+	logger  *zerolog.Logger
 }
 
 func NewConferenceRepository(s *Storage) IConferenceRepository {
+	_logger := zerolog.New(os.Stdout).With().Str("app", "conf_mgmt_sys").
+		Str("module", "conference storage").Logger()
 	return &ConferenceRepository{
 		storage: s,
+		logger:  &_logger,
 	}
 }
 
@@ -94,7 +101,13 @@ func (c *ConferenceRepository) UpdateTalk(talk model.Talk) (*model.Talk, error) 
 //SPEAKERS
 
 func (c *ConferenceRepository) CreateSpeaker(speaker model.Speaker) (*model.Speaker, error) {
-	return &speaker, c.storage.db.Where("username = ? AND email = ?", speaker.Username, speaker.Email).FirstOrCreate(&speaker).Error
+	var _speaker model.Speaker
+	er := c.storage.db.Where("email = ? AND talk_id = ?", speaker.Email, speaker.TalkID).First(&_speaker).Error
+	if er == nil || !errors.Is(er, gorm.ErrRecordNotFound) {
+		return nil, errors.New("email already exist")
+	}
+
+	return &speaker, c.storage.db.Create(&speaker).Error
 }
 
 func (c *ConferenceRepository) GetSpeakers(TalkId uint, page, pageSize int) ([]model.Speaker, error) {
@@ -109,7 +122,13 @@ func (c *ConferenceRepository) DeleteSpeaker(speakerId, talkId uint) error {
 // PARTICIPANTS
 
 func (c *ConferenceRepository) CreateParticipant(participant model.Participant) (*model.Participant, error) {
-	return &participant, c.storage.db.Where("username = ? AND email = ?", participant.Username, participant.Email).FirstOrCreate(&participant).Error
+	var _participant model.Participant
+	er := c.storage.db.Where("email = ? AND talk_id = ?", participant.Email, participant.TalkID).First(&_participant).Error
+	if er == nil || !errors.Is(er, gorm.ErrRecordNotFound) {
+		return nil, errors.New("email already exist")
+	}
+
+	return &participant, c.storage.db.Create(&participant).Error
 }
 
 func (c *ConferenceRepository) GetParticipants(TalkId uint, page, pageSize int) ([]model.Participant, error) {

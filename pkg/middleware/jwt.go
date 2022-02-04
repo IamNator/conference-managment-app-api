@@ -22,7 +22,8 @@ func NewMiddleWare() *Middleware {
 }
 
 type Claims struct {
-	UserID uint `json:"user_id"`
+	Username string `json:"username"`
+	UserID   uint   `json:"user_id"`
 	jwt.StandardClaims
 }
 
@@ -32,7 +33,8 @@ func (m Middleware) GenerateToken(user model.User) (*model.UserAuthResponse, err
 	expirationTime := time.Now().Add(m.AccessTokenDuration)
 	// Create the JWT claims, which includes the username and expiry time
 	claims := &Claims{
-		UserID: user.ID,
+		UserID:   user.ID,
+		Username: user.Username,
 		StandardClaims: jwt.StandardClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
 			ExpiresAt: expirationTime.Unix(),
@@ -55,7 +57,7 @@ func (m Middleware) GenerateToken(user model.User) (*model.UserAuthResponse, err
 	}, nil
 }
 
-func (m *Middleware) Verify(accessToken string) (*uint, error) {
+func (m *Middleware) Verify(accessToken string) (*Claims, error) {
 
 	claims := new(Claims)
 	tkn, err := jwt.ParseWithClaims(accessToken, claims, func(token *jwt.Token) (interface{}, error) {
@@ -72,5 +74,5 @@ func (m *Middleware) Verify(accessToken string) (*uint, error) {
 		return nil, errors.New("unauthorized access")
 	}
 
-	return &claims.UserID, nil
+	return claims, nil
 }

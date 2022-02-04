@@ -45,35 +45,32 @@ type (
 	}
 
 	EditHistory struct {
-		ConferenceID uint   `json:"conference_id"`
-		PropertyID   uint   `json:"property_id"`
-		Property     string `json:"property"` //
-		Field        string `json:"field"`
-		PreValue     string `json:"pre_value"`
-		CurrentValue string `json:"current_value"`
-		By           uint   `json:"by"`
+		ConferenceID     uint   `json:"conference_id"`
+		PropertyAffected string `json:"property_affected"`
+		Action           string `json:"action"`
+		By               string `json:"by"`
 		General
 	}
 )
 
-func (c Conference) TableName(tx *gorm.DB) string {
+func (c Conference) TableName() string {
 	return "conference"
 }
 
-func (t Talk) TableName(tx *gorm.DB) string {
+func (t Talk) TableName() string {
 	return "talk"
 }
 
-func (s Speaker) TableName(tx *gorm.DB) string {
+func (s Speaker) TableName() string {
 	return "speaker"
 }
 
-func (s Participant) TableName(tx *gorm.DB) string {
+func (s Participant) TableName() string {
 	return "participant"
 }
 
-func (e EditHistory) TableName(tx *gorm.DB) string {
-	return "edit_history"
+func (e EditHistory) TableName() string {
+	return "edit_history" //
 }
 
 //
@@ -155,23 +152,27 @@ type (
 	}
 
 	AddSpeakerReq struct {
-		TalkID   uint   `json:"talk_id"`
-		Username string `json:"username"`
-		Email    string `json:"email"`
+		ConferenceId uint   `json:"conference_id"`
+		TalkID       uint   `json:"talk_id"`
+		Username     string `json:"username"`
+		Email        string `json:"email"`
 	}
 
 	RemoveSpeakerReq struct {
-		TalkID    uint `json:"talk_id" form:"talk_id"`
-		SpeakerID uint `json:"speaker_id" form:"speaker_id"`
+		ConferenceId uint `json:"conference_id"  form:"conference_id"`
+		TalkID       uint `json:"talk_id" form:"talk_id"`
+		SpeakerID    uint `json:"speaker_id" form:"speaker_id"`
 	}
 
 	AddParticipantReq struct {
-		TalkID   uint   `json:"talk_id"`
-		Username string `json:"username"`
-		Email    string `json:"email"`
+		ConferenceId uint   `json:"conference_id"`
+		TalkID       uint   `json:"talk_id"`
+		Username     string `json:"username"`
+		Email        string `json:"email"`
 	}
 
 	RemoveParticipantReq struct {
+		ConferenceId  uint `json:"conference_id"  form:"conference_id"`
 		TalkID        uint `json:"talk_id" form:"talk_id"`
 		ParticipantID uint `json:"participant_id" form:"participant_id"`
 	}
@@ -265,6 +266,7 @@ func (g GetSpeakerReq) Validate() error {
 
 func (a AddSpeakerReq) Validate() error {
 	return validation.ValidateStruct(&a,
+		validation.Field(&a.ConferenceId, validation.Required),
 		validation.Field(&a.Username, validation.Required, validation.Length(1, 50)),
 		validation.Field(&a.Email, validation.Required, is.Email),
 		validation.Field(&a.TalkID, validation.Required),
@@ -273,6 +275,7 @@ func (a AddSpeakerReq) Validate() error {
 
 func (a AddParticipantReq) Validate() error {
 	return validation.ValidateStruct(&a,
+		validation.Field(&a.ConferenceId, validation.Required),
 		validation.Field(&a.Username, validation.Required, validation.Length(1, 50)),
 		validation.Field(&a.Email, validation.Required, is.Email),
 		validation.Field(&a.TalkID, validation.Required),
@@ -281,6 +284,7 @@ func (a AddParticipantReq) Validate() error {
 
 func (r RemoveSpeakerReq) Validate() error {
 	return validation.ValidateStruct(&r,
+		validation.Field(&r.ConferenceId, validation.Required),
 		validation.Field(&r.SpeakerID, validation.Required),
 		validation.Field(&r.TalkID, validation.Required),
 	)
@@ -294,6 +298,7 @@ func (g GetParticipantReq) Validate() error {
 
 func (r RemoveParticipantReq) Validate() error {
 	return validation.ValidateStruct(&r,
+		validation.Field(&r.ConferenceId, validation.Required),
 		validation.Field(&r.ParticipantID, validation.Required),
 		validation.Field(&r.TalkID, validation.Required),
 	)
