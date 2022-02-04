@@ -26,6 +26,8 @@ type IConferenceRepository interface {
 
 	SaveEditHistory(history model.EditHistory) error
 	GetEditHistory(conferenceID uint, page, pageSize int) ([]model.EditHistory, error)
+
+	WithTx(db *gorm.DB) IConferenceRepository
 }
 
 type ConferenceRepository struct {

@@ -9,4 +9,5 @@ golangci-lint run ./... -v
 echo "running tests with coverage flag"
 # shellcheck disable=SC2006
 go test `go list ./... | grep -v example` -coverprofile=coverage.txt -covermode=atomic
+go tool cover -html=coverage.txt
 echo "Genius is in simplicity"

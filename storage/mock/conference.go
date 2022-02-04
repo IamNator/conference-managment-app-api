@@ -6,9 +6,11 @@ package mock
 
 import (
 	model "conference/model"
+	storage "conference/storage"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	gorm "gorm.io/gorm"
 )
 
 // MockIConferenceRepository is a mock of IConferenceRepository interface.
@@ -254,4 +256,18 @@ func (m *MockIConferenceRepository) UpdateTalk(talk model.Talk) (*model.Talk, er
 func (mr *MockIConferenceRepositoryMockRecorder) UpdateTalk(talk interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTalk", reflect.TypeOf((*MockIConferenceRepository)(nil).UpdateTalk), talk)
+}
+
+// WithTx mocks base method.
+func (m *MockIConferenceRepository) WithTx(db *gorm.DB) storage.IConferenceRepository {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "WithTx", db)
+	ret0, _ := ret[0].(storage.IConferenceRepository)
+	return ret0
+}
+
+// WithTx indicates an expected call of WithTx.
+func (mr *MockIConferenceRepositoryMockRecorder) WithTx(db interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "WithTx", reflect.TypeOf((*MockIConferenceRepository)(nil).WithTx), db)
 }
