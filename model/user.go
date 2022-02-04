@@ -14,7 +14,7 @@ type (
 	User     struct {
 		Username     string     `json:"username"`
 		Email        string     `json:"email"`
-		Password     Password   `json:"_"`
+		Password     Password   `json:"-"`
 		LastLoggedIn *time.Time `json:"last_logged_in"`
 		General
 	}
