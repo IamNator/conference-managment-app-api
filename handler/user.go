@@ -47,7 +47,7 @@ func (h *Handlers) RegisterUser(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSONP(http.StatusCreated, *resp)
+	ctx.JSONP(http.StatusCreated, resp)
 }
 
 func (h *Handlers) LogOutUser(ctx *gin.Context) {
