@@ -5,7 +5,5 @@ import (
 )
 
 type (
-	General struct {
-		gorm.Model
-	}
+	General = gorm.Model
 )

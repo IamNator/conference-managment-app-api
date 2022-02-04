@@ -7,6 +7,7 @@ import (
 )
 
 func (h *Handlers) CreateConference(c *gin.Context) {
+
 	var confReq model.CreateConferenceReq
 	if er := c.BindJSON(&confReq); er != nil {
 		c.String(http.StatusBadRequest, er.Error())

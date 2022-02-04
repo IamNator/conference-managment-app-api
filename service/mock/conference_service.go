@@ -34,6 +34,36 @@ func (m *MockIConferenceService) EXPECT() *MockIConferenceServiceMockRecorder {
 	return m.recorder
 }
 
+// AddParticipant mocks base method.
+func (m *MockIConferenceService) AddParticipant(userId uint, req model.AddParticipantReq) (*model.Participant, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddParticipant", userId, req)
+	ret0, _ := ret[0].(*model.Participant)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddParticipant indicates an expected call of AddParticipant.
+func (mr *MockIConferenceServiceMockRecorder) AddParticipant(userId, req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddParticipant", reflect.TypeOf((*MockIConferenceService)(nil).AddParticipant), userId, req)
+}
+
+// AddSpeaker mocks base method.
+func (m *MockIConferenceService) AddSpeaker(userId uint, req model.AddSpeakerReq) (*model.Speaker, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddSpeaker", userId, req)
+	ret0, _ := ret[0].(*model.Speaker)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddSpeaker indicates an expected call of AddSpeaker.
+func (mr *MockIConferenceServiceMockRecorder) AddSpeaker(userId, req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddSpeaker", reflect.TypeOf((*MockIConferenceService)(nil).AddSpeaker), userId, req)
+}
+
 // CreateConference mocks base method.
 func (m *MockIConferenceService) CreateConference(conference model.CreateConferenceReq) (*model.Conference, error) {
 	m.ctrl.T.Helper()
@@ -47,4 +77,122 @@ func (m *MockIConferenceService) CreateConference(conference model.CreateConfere
 func (mr *MockIConferenceServiceMockRecorder) CreateConference(conference interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateConference", reflect.TypeOf((*MockIConferenceService)(nil).CreateConference), conference)
+}
+
+// CreateTalk mocks base method.
+func (m *MockIConferenceService) CreateTalk(req model.CreateTalkReq) (*model.Talk, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateTalk", req)
+	ret0, _ := ret[0].(*model.Talk)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateTalk indicates an expected call of CreateTalk.
+func (mr *MockIConferenceServiceMockRecorder) CreateTalk(req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTalk", reflect.TypeOf((*MockIConferenceService)(nil).CreateTalk), req)
+}
+
+// GetConferences mocks base method.
+func (m *MockIConferenceService) GetConferences(page, pageSize int) ([]model.Conference, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetConferences", page, pageSize)
+	ret0, _ := ret[0].([]model.Conference)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetConferences indicates an expected call of GetConferences.
+func (mr *MockIConferenceServiceMockRecorder) GetConferences(page, pageSize interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetConferences", reflect.TypeOf((*MockIConferenceService)(nil).GetConferences), page, pageSize)
+}
+
+// GetEditHistory mocks base method.
+func (m *MockIConferenceService) GetEditHistory(conferenceId uint, page, pageSize int) ([]model.EditHistory, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetEditHistory", conferenceId, page, pageSize)
+	ret0, _ := ret[0].([]model.EditHistory)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetEditHistory indicates an expected call of GetEditHistory.
+func (mr *MockIConferenceServiceMockRecorder) GetEditHistory(conferenceId, page, pageSize interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetEditHistory", reflect.TypeOf((*MockIConferenceService)(nil).GetEditHistory), conferenceId, page, pageSize)
+}
+
+// GetTalks mocks base method.
+func (m *MockIConferenceService) GetTalks(conferenceId uint, page, pageSize int) ([]model.Talk, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTalks", conferenceId, page, pageSize)
+	ret0, _ := ret[0].([]model.Talk)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTalks indicates an expected call of GetTalks.
+func (mr *MockIConferenceServiceMockRecorder) GetTalks(conferenceId, page, pageSize interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTalks", reflect.TypeOf((*MockIConferenceService)(nil).GetTalks), conferenceId, page, pageSize)
+}
+
+// RemoveParticipant mocks base method.
+func (m *MockIConferenceService) RemoveParticipant(participantId, talkId uint) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RemoveParticipant", participantId, talkId)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RemoveParticipant indicates an expected call of RemoveParticipant.
+func (mr *MockIConferenceServiceMockRecorder) RemoveParticipant(participantId, talkId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveParticipant", reflect.TypeOf((*MockIConferenceService)(nil).RemoveParticipant), participantId, talkId)
+}
+
+// RemoveSpeaker mocks base method.
+func (m *MockIConferenceService) RemoveSpeaker(speakerId, talkId uint) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "RemoveSpeaker", speakerId, talkId)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RemoveSpeaker indicates an expected call of RemoveSpeaker.
+func (mr *MockIConferenceServiceMockRecorder) RemoveSpeaker(speakerId, talkId interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveSpeaker", reflect.TypeOf((*MockIConferenceService)(nil).RemoveSpeaker), speakerId, talkId)
+}
+
+// UpdateConference mocks base method.
+func (m *MockIConferenceService) UpdateConference(conference model.UpdateConferenceReq) (*model.Conference, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateConference", conference)
+	ret0, _ := ret[0].(*model.Conference)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateConference indicates an expected call of UpdateConference.
+func (mr *MockIConferenceServiceMockRecorder) UpdateConference(conference interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateConference", reflect.TypeOf((*MockIConferenceService)(nil).UpdateConference), conference)
+}
+
+// UpdateTalk mocks base method.
+func (m *MockIConferenceService) UpdateTalk(req model.UpdateTalkReq) (*model.Talk, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTalk", req)
+	ret0, _ := ret[0].(*model.Talk)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateTalk indicates an expected call of UpdateTalk.
+func (mr *MockIConferenceServiceMockRecorder) UpdateTalk(req interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTalk", reflect.TypeOf((*MockIConferenceService)(nil).UpdateTalk), req)
 }

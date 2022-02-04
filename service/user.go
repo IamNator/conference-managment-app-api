@@ -14,17 +14,18 @@ type IUserService interface {
 }
 
 type UserService struct {
-	userRepo storage.IUserRepository
+	UserRepo storage.IUserRepository
 }
 
 func NewUserService(s *storage.Storage) IUserService {
 	return &UserService{
-		userRepo: storage.NewUserRepository(s),
+		UserRepo: storage.NewUserRepository(s),
 	}
 }
 
 func (c *UserService) Login(req model.UserLoginReq) (*model.UserAuthResponse, error) {
-	user, er := c.userRepo.GetUserByEmail(req.Email)
+
+	user, er := c.UserRepo.GetUserByEmail(req.Email)
 	if er != nil {
 		return nil, er
 	}
@@ -43,12 +44,12 @@ func (c *UserService) Login(req model.UserLoginReq) (*model.UserAuthResponse, er
 
 func (c *UserService) RegisterUser(req model.UserSignUpReq) (*model.UserAuthResponse, error) {
 
-	user, _ := c.userRepo.GetUserByEmail(req.Email)
+	user, _ := c.UserRepo.GetUserByEmail(req.Email)
 	if user != nil {
 		return nil, errors.New("email already exists")
 	}
 
-	user, er := c.userRepo.CreateUser(model.User{
+	user, er := c.UserRepo.CreateUser(model.User{
 		Username: req.Username,
 		Email:    req.Email,
 		Password: req.Password,

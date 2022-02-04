@@ -36,6 +36,66 @@ func (m *MockIConferenceRepository) EXPECT() *MockIConferenceRepositoryMockRecor
 	return m.recorder
 }
 
+// CreateConference mocks base method.
+func (m *MockIConferenceRepository) CreateConference(conference model.Conference) (*model.Conference, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateConference", conference)
+	ret0, _ := ret[0].(*model.Conference)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateConference indicates an expected call of CreateConference.
+func (mr *MockIConferenceRepositoryMockRecorder) CreateConference(conference interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateConference", reflect.TypeOf((*MockIConferenceRepository)(nil).CreateConference), conference)
+}
+
+// CreateParticipant mocks base method.
+func (m *MockIConferenceRepository) CreateParticipant(participant model.Participant) (*model.Participant, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateParticipant", participant)
+	ret0, _ := ret[0].(*model.Participant)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateParticipant indicates an expected call of CreateParticipant.
+func (mr *MockIConferenceRepositoryMockRecorder) CreateParticipant(participant interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateParticipant", reflect.TypeOf((*MockIConferenceRepository)(nil).CreateParticipant), participant)
+}
+
+// CreateSpeaker mocks base method.
+func (m *MockIConferenceRepository) CreateSpeaker(speaker model.Speaker) (*model.Speaker, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateSpeaker", speaker)
+	ret0, _ := ret[0].(*model.Speaker)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateSpeaker indicates an expected call of CreateSpeaker.
+func (mr *MockIConferenceRepositoryMockRecorder) CreateSpeaker(speaker interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateSpeaker", reflect.TypeOf((*MockIConferenceRepository)(nil).CreateSpeaker), speaker)
+}
+
+// CreateTalk mocks base method.
+func (m *MockIConferenceRepository) CreateTalk(talk model.Talk) (*model.Talk, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateTalk", talk)
+	ret0, _ := ret[0].(*model.Talk)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateTalk indicates an expected call of CreateTalk.
+func (mr *MockIConferenceRepositoryMockRecorder) CreateTalk(talk interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateTalk", reflect.TypeOf((*MockIConferenceRepository)(nil).CreateTalk), talk)
+}
+
 // DeleteParticipant mocks base method.
 func (m *MockIConferenceRepository) DeleteParticipant(participantId, talkId uint) error {
 	m.ctrl.T.Helper()
@@ -154,21 +214,6 @@ func (mr *MockIConferenceRepositoryMockRecorder) GetTalks(conferenceId, page, pa
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTalks", reflect.TypeOf((*MockIConferenceRepository)(nil).GetTalks), conferenceId, page, pageSize)
 }
 
-// SaveConference mocks base method.
-func (m *MockIConferenceRepository) createConference(conference model.Conference) (*model.Conference, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "createConference", conference)
-	ret0, _ := ret[0].(*model.Conference)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SaveConference indicates an expected call of SaveConference.
-func (mr *MockIConferenceRepositoryMockRecorder) SaveConference(conference interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "createConference", reflect.TypeOf((*MockIConferenceRepository)(nil).createConference), conference)
-}
-
 // SaveEditHistory mocks base method.
 func (m *MockIConferenceRepository) SaveEditHistory(history model.EditHistory) error {
 	m.ctrl.T.Helper()
@@ -181,51 +226,6 @@ func (m *MockIConferenceRepository) SaveEditHistory(history model.EditHistory) e
 func (mr *MockIConferenceRepositoryMockRecorder) SaveEditHistory(history interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveEditHistory", reflect.TypeOf((*MockIConferenceRepository)(nil).SaveEditHistory), history)
-}
-
-// SaveParticipant mocks base method.
-func (m *MockIConferenceRepository) SaveParticipant(participant model.Participant) (*model.Participant, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveParticipant", participant)
-	ret0, _ := ret[0].(*model.Participant)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SaveParticipant indicates an expected call of SaveParticipant.
-func (mr *MockIConferenceRepositoryMockRecorder) SaveParticipant(participant interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveParticipant", reflect.TypeOf((*MockIConferenceRepository)(nil).SaveParticipant), participant)
-}
-
-// SaveSpeaker mocks base method.
-func (m *MockIConferenceRepository) SaveSpeaker(speaker model.Speaker) (*model.Speaker, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveSpeaker", speaker)
-	ret0, _ := ret[0].(*model.Speaker)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SaveSpeaker indicates an expected call of SaveSpeaker.
-func (mr *MockIConferenceRepositoryMockRecorder) SaveSpeaker(speaker interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveSpeaker", reflect.TypeOf((*MockIConferenceRepository)(nil).SaveSpeaker), speaker)
-}
-
-// SaveTalk mocks base method.
-func (m *MockIConferenceRepository) SaveTalk(talk model.Talk) (*model.Talk, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveTalk", talk)
-	ret0, _ := ret[0].(*model.Talk)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// SaveTalk indicates an expected call of SaveTalk.
-func (mr *MockIConferenceRepositoryMockRecorder) SaveTalk(talk interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveTalk", reflect.TypeOf((*MockIConferenceRepository)(nil).SaveTalk), talk)
 }
 
 // UpdateConference mocks base method.

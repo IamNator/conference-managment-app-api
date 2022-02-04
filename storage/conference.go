@@ -12,15 +12,15 @@ type IConferenceRepository interface {
 	GetConference(conferenceId uint, page, pageSize int) ([]model.Conference, error)
 	GetAllConference(page, pageSize int) ([]model.Conference, error)
 
-	SaveTalk(talk model.Talk) (*model.Talk, error)
+	CreateTalk(talk model.Talk) (*model.Talk, error)
 	UpdateTalk(talk model.Talk) (*model.Talk, error)
 	GetTalks(conferenceId uint, page, pageSize int) ([]model.Talk, error)
 
-	SaveSpeaker(speaker model.Speaker) (*model.Speaker, error)
+	CreateSpeaker(speaker model.Speaker) (*model.Speaker, error)
 	GetSpeakers(TalkId uint, page, pageSize int) ([]model.Talk, error)
 	DeleteSpeaker(speakerId, talkId uint) error
 
-	SaveParticipant(participant model.Participant) (*model.Participant, error)
+	CreateParticipant(participant model.Participant) (*model.Participant, error)
 	GetParticipants(TalkId uint, page, pageSize int) ([]model.Talk, error)
 	DeleteParticipant(participantId, talkId uint) error
 
@@ -68,7 +68,7 @@ func (c *ConferenceRepository) GetAllConference(page, pageSize int) ([]model.Con
 
 //TALKS
 
-func (c *ConferenceRepository) SaveTalk(talk model.Talk) (*model.Talk, error) {
+func (c *ConferenceRepository) CreateTalk(talk model.Talk) (*model.Talk, error) {
 	return &model.Talk{}, nil
 }
 
@@ -82,7 +82,7 @@ func (c *ConferenceRepository) UpdateTalk(talk model.Talk) (*model.Talk, error) 
 
 //SPEAKERS
 
-func (c *ConferenceRepository) SaveSpeaker(speaker model.Speaker) (*model.Speaker, error) {
+func (c *ConferenceRepository) CreateSpeaker(speaker model.Speaker) (*model.Speaker, error) {
 	return &model.Speaker{}, nil
 }
 
@@ -96,7 +96,7 @@ func (c *ConferenceRepository) DeleteSpeaker(speakerId, talkId uint) error {
 
 // PARTICIPANTS
 
-func (c *ConferenceRepository) SaveParticipant(participant model.Participant) (*model.Participant, error) {
+func (c *ConferenceRepository) CreateParticipant(participant model.Participant) (*model.Participant, error) {
 	return &model.Participant{}, nil
 }
 
