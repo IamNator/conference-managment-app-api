@@ -38,6 +38,7 @@ func (u *UserRepository) WithTx(db *gorm.DB) IUserRepository {
 }
 
 func (u *UserRepository) CreateUser(user model.User) (*model.User, error) {
+	user.Password = user.Password.Hash()
 	er := u.storage.db.Create(&user).Error
 	if er != nil {
 		u.logger.Error().Err(er).Msg("unable to create new user")
