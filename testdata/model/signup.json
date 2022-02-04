@@ -1,0 +1,37 @@
+[
+  {
+    "req": {
+      "username": "Flower_crawl",
+      "email": "wendellwalker@williamson.net",
+      "password": "Ahealt9r3u94][elly."
+    }
+  },
+  {
+    "req":{
+    "username": "Easy_point_bathe",
+    "email": "ashleycummings@stamm.biz",
+    "password": "fsdnfn80umfnnd"
+  }
+  },
+  {
+    "req":{
+    "username": "Clear_problem",
+    "email": "leslievandervort@quigley.name",
+    "password": "fkd;fknijennaf89fd"
+  }
+  },
+  {
+    "req":{
+    "username": "A_lively_wisdom",
+    "email": "idellrogahn@volkman.io",
+    "password": "Apurplegroupkdfksdnkldsn"
+  }
+  },
+  {
+    "error": "email: cannot be blank.",
+    "req":{
+      "username": "A_lively_wisdom",
+      "password": "Apurplegroupkdfksdnkldsn"
+    }
+  }
+]

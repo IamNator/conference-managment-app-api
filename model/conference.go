@@ -1,15 +1,19 @@
 package model
 
-import "time"
+import (
+	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/go-ozzo/ozzo-validation/is"
+	"time"
+)
 
 type (
 	Conference struct {
 		General
-		Title       string `json:"title"`
-		Description string `json:"description"`
-		StartDate   string `json:"Start_date"`
-		EndDate     string `json:"end_date"`
-		Talks       []Talk `json:"talk"`
+		Title       string    `json:"title"`
+		Description string    `json:"description"`
+		StartDate   time.Time `json:"Start_date"`
+		EndDate     time.Time `json:"end_date"`
+		Talks       []Talk    `json:"talk"`
 	}
 
 	Talk struct {
@@ -18,7 +22,7 @@ type (
 		Title        string        `json:"title"`
 		Description  string        `json:"description"`
 		Duration     time.Duration `json:"duration"`
-		DateTime     time.Time     `json:"time"`
+		DateTime     time.Time     `json:"date_time"`
 		Speakers     []Speaker     `json:"speakers"`
 		Participants []Participant `json:"participants"`
 	}
@@ -51,17 +55,18 @@ type (
 
 type (
 	CreateConferenceReq struct {
-		Title       string `json:"title"`
-		Description string `json:"description"`
-		StartDate   string `json:"Start_date"`
-		EndDate     string `json:"end_date"`
+		Title       string    `json:"title"`
+		Description string    `json:"description"`
+		StartDate   time.Time `json:"start_date"`
+		EndDate     time.Time `json:"end_date"`
 	}
+
 	CreateTalkReq struct {
 		ConferenceID uint          `json:"conference_id"`
 		Title        string        `json:"title"`
 		Description  string        `json:"description"`
 		Duration     time.Duration `json:"duration"`
-		DateTime     time.Time     `json:"time"`
+		DateTime     time.Time     `json:"date_time"`
 	}
 
 	AddSpeakerReq struct {
@@ -77,7 +82,6 @@ type (
 	}
 
 	//edits to a conference
-
 	EditHistoryResp struct {
 		ConferenceID uint      `json:"conference_id"`
 		Property     string    `json:"property"` //
@@ -89,3 +93,38 @@ type (
 		CreatedAt    time.Time `json:"created_at"`
 	}
 )
+
+func (c CreateConferenceReq) Validate() error {
+	return validation.ValidateStruct(&c,
+		validation.Field(&c.Title, validation.Required, validation.Length(1, 50)),
+		validation.Field(&c.Description, validation.Required, validation.Length(5, 1000)),
+		validation.Field(&c.StartDate, validation.Required),
+		validation.Field(&c.EndDate, validation.Required),
+	)
+}
+
+func (c CreateTalkReq) Validate() error {
+	return validation.ValidateStruct(&c,
+		validation.Field(&c.Title, validation.Required, validation.Length(1, 50)),
+		validation.Field(&c.Description, validation.Required, validation.Length(5, 1000)),
+		validation.Field(&c.DateTime, validation.Required),
+		validation.Field(&c.ConferenceID, validation.Required),
+		validation.Field(&c.Duration, validation.Required),
+	)
+}
+
+func (a AddSpeakerReq) Validate() error {
+	return validation.ValidateStruct(&a,
+		validation.Field(&a.Username, validation.Required, validation.Length(1, 50)),
+		validation.Field(&a.Email, validation.Required, is.Email),
+		validation.Field(&a.TalkID, validation.Required),
+	)
+}
+
+func (a AddParticipantReq) Validate() error {
+	return validation.ValidateStruct(&a,
+		validation.Field(&a.Username, validation.Required, validation.Length(1, 50)),
+		validation.Field(&a.Email, validation.Required, is.Email),
+		validation.Field(&a.TalkID, validation.Required),
+	)
+}

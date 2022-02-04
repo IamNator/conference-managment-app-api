@@ -1,0 +1,57 @@
+[
+  {
+    "error": "title: the length must be between 1 and 50.",
+    "req": {
+      "title": "The kind ream purely sleepily cut an awful basket barely roughly.",
+      "description": "The funny seafood jump highly badly.",
+      "duration": 4235253443,
+      "date_time": "2022-03-01T18:25:43.511Z",
+      "conference_id": 1232
+    }
+  },
+  {
+    "req":{
+      "title": "A youth wearily climb smoke.",
+      "description": "An air scarcely so fly closely from a comb indeed promptly.",
+      "duration": 4235253443,
+      "date_time": "2022-03-01T18:25:43.511Z",
+      "conference_id": 2732
+    }
+  },
+  {
+    "req":{
+      "title": "The school fight a terrible time joyously.",
+      "description": "The divorce talk exciting posse thoroughly reluctantly to the inexpensive point.",
+      "duration": 4235253443,
+      "date_time": "2022-03-01T18:25:43.511Z",
+      "conference_id": 5232
+    }
+  },
+  {
+    "req":{
+      "title": "The cloud cut.",
+      "description": "Inquiring son fight the leap fondly how hurriedly.",
+      "duration": 4235253443,
+      "date_time": "2022-03-01T18:25:43.511Z",
+      "conference_id": 2302
+    }
+  },
+  {
+    "error": "title: cannot be blank.",
+    "req":{
+      "description": "Inquiring son fight the leap fondly how hurriedly.",
+      "duration": 4235253443,
+      "date_time": "2022-03-01T18:25:43.511Z",
+      "conference_id": 32
+    }
+  },
+  {
+    "error": "description: cannot be blank.",
+    "req":{
+      "title": "A thankful mob watch.",
+      "duration": 4235253443,
+      "date_time": "2022-03-01T18:25:43.511Z",
+      "conference_id": 232
+    }
+  }
+]

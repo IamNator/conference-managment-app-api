@@ -1,0 +1,39 @@
+[
+  {
+    "req": {
+      "email": "wendellwalker@williamson.net",
+      "password": "Ahealt9r3u94][elly."
+    }
+  },
+  {
+    "req":{
+    "email": "ashleycummings@stamm.biz",
+    "password": "fsdnfn80umfnnd"
+  }
+  },
+  {
+    "req":{
+    "username": "Clear_problem",
+    "email": "leslievandervort@quigley.name",
+    "password": "fkd;fknijennaf89fd"
+  }
+  },
+  {
+    "req":{
+    "email": "idellrogahn@volkman.io",
+    "password": "Apurplegroupkdfksdnkldsn"
+  }
+  },
+  {
+    "error": "email: cannot be blank.",
+    "req":{
+      "password": "Apurplegroupkdfksdnkldsn"
+    }
+  },
+  {
+    "error": "password: cannot be blank.",
+    "req":{
+      "email": "idellrogahn@volkman.io"
+    }
+  }
+]

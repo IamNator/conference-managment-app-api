@@ -1,6 +1,11 @@
 package model
 
-import "time"
+import (
+	validation "github.com/go-ozzo/ozzo-validation"
+	"github.com/go-ozzo/ozzo-validation/is"
+	"strings"
+	"time"
+)
 
 type (
 	Password string
@@ -40,13 +45,33 @@ func (User) TableName() string {
 
 //TODO
 func (p Password) Hash() Password {
-	return p
+	return p + Password("000")
 }
 
 func (p Password) Compare(password string) bool {
-	return p == Password(password)
+	return strings.TrimPrefix(p.String(), "000") == password
 }
 
 func (p Password) String() string {
 	return string(p)
+}
+
+func (u UserSignUpReq) Validate() error {
+	return validation.ValidateStruct(&u,
+		// Username cannot be empty, and the length must between 1 and 50
+		validation.Field(&u.Username, validation.Required, validation.Length(1, 50)),
+		// Password cannot be empty, and the length must between 5 and 50
+		validation.Field(&u.Password, validation.Required, validation.Length(5, 50)),
+		// Email cannot be empty and should be in a valid email format.
+		validation.Field(&u.Email, validation.Required, is.Email),
+	)
+}
+
+func (u UserLoginReq) Validate() error {
+	return validation.ValidateStruct(&u,
+		// Password cannot be empty, and the length must between 5 and 50
+		validation.Field(&u.Password, validation.Required, validation.Length(5, 50)),
+		// Email cannot be empty and should be in a valid email format.
+		validation.Field(&u.Email, validation.Required, is.Email),
+	)
 }

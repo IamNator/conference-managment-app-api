@@ -1,0 +1,37 @@
+[
+  {
+    "error": "username: cannot be blank.",
+    "req": {
+      "talk_id": 333,
+      "email": "ralphshanahan@schumm.io"
+    }
+  },
+  {
+    "req": {
+      "talk_id": 433,
+      "username": "Afdafdierjn",
+      "email": "ralphshanahan@schumm.io"
+    }
+  },
+  {
+    "req": {
+      "talk_id": 33433,
+      "username": "Apackrarelydance",
+      "email": "ralphshanahan@schumm.io"
+    }
+  },
+  {
+    "req": {
+      "talk_id": 34343333,
+      "username": "Athesleepychest.",
+      "email": "ralphshanahan@schumm.io"
+    }
+  },
+  {
+    "error": "talk_id: cannot be blank.",
+    "req": {
+      "username": "AsleepyChest42.",
+      "email": "ralphshanahan@schumm.io"
+    }
+  }
+]
