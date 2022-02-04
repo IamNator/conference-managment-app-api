@@ -170,10 +170,10 @@ func (mr *MockIConferenceRepositoryMockRecorder) GetEditHistory(conferenceID, pa
 }
 
 // GetParticipants mocks base method.
-func (m *MockIConferenceRepository) GetParticipants(TalkId uint, page, pageSize int) ([]model.Talk, error) {
+func (m *MockIConferenceRepository) GetParticipants(TalkId uint, page, pageSize int) ([]model.Participant, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetParticipants", TalkId, page, pageSize)
-	ret0, _ := ret[0].([]model.Talk)
+	ret0, _ := ret[0].([]model.Participant)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -185,10 +185,10 @@ func (mr *MockIConferenceRepositoryMockRecorder) GetParticipants(TalkId, page, p
 }
 
 // GetSpeakers mocks base method.
-func (m *MockIConferenceRepository) GetSpeakers(TalkId uint, page, pageSize int) ([]model.Talk, error) {
+func (m *MockIConferenceRepository) GetSpeakers(TalkId uint, page, pageSize int) ([]model.Speaker, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetSpeakers", TalkId, page, pageSize)
-	ret0, _ := ret[0].([]model.Talk)
+	ret0, _ := ret[0].([]model.Speaker)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

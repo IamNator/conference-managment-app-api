@@ -35,17 +35,17 @@ func (m *MockIUserService) EXPECT() *MockIUserServiceMockRecorder {
 }
 
 // LogOut mocks base method.
-func (m *MockIUserService) LogOut(refresh string) error {
+func (m *MockIUserService) LogOut(refresh, access string) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "LogOut", refresh)
+	ret := m.ctrl.Call(m, "LogOut", refresh, access)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // LogOut indicates an expected call of LogOut.
-func (mr *MockIUserServiceMockRecorder) LogOut(refresh interface{}) *gomock.Call {
+func (mr *MockIUserServiceMockRecorder) LogOut(refresh, access interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LogOut", reflect.TypeOf((*MockIUserService)(nil).LogOut), refresh)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "LogOut", reflect.TypeOf((*MockIUserService)(nil).LogOut), refresh, access)
 }
 
 // Login mocks base method.

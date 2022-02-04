@@ -11,10 +11,15 @@ type IConferenceService interface {
 	UpdateConference(conference model.UpdateConferenceReq) (*model.Conference, error)
 	CreateTalk(req model.CreateTalkReq) (*model.Talk, error)
 	UpdateTalk(req model.UpdateTalkReq) (*model.Talk, error)
+
 	AddSpeaker(userId uint, req model.AddSpeakerReq) (*model.Speaker, error)
+	GetSpeakers(talkId uint, page int, pageSize int) ([]model.Speaker, error)
 	RemoveSpeaker(speakerId uint, talkId uint) error
+
 	AddParticipant(userId uint, req model.AddParticipantReq) (*model.Participant, error)
+	GetParticipants(talkId uint, page int, pageSize int) ([]model.Participant, error)
 	RemoveParticipant(participantId uint, talkId uint) error
+
 	GetTalks(conferenceId uint, page int, pageSize int) ([]model.Talk, error)
 	GetConferences(page int, pageSize int) ([]model.Conference, error)
 	GetEditHistory(conferenceId uint, page int, pageSize int) ([]model.EditHistory, error)
@@ -89,6 +94,10 @@ func (c *ConferenceService) AddSpeaker(userId uint, req model.AddSpeakerReq) (*m
 	})
 }
 
+func (c *ConferenceService) GetSpeakers(talkId uint, page int, pageSize int) ([]model.Speaker, error) {
+	return c.ConferenceRepo.GetSpeakers(talkId, page, pageSize)
+}
+
 func (c *ConferenceService) RemoveSpeaker(speakerId uint, talkId uint) error {
 	return c.ConferenceRepo.DeleteSpeaker(speakerId, talkId)
 }
@@ -100,6 +109,10 @@ func (c *ConferenceService) AddParticipant(userId uint, req model.AddParticipant
 		Email:    req.Email,
 		UserID:   &userId,
 	})
+}
+
+func (c *ConferenceService) GetParticipants(talkId uint, page int, pageSize int) ([]model.Participant, error) {
+	return c.ConferenceRepo.GetParticipants(talkId, page, pageSize)
 }
 
 func (c *ConferenceService) RemoveParticipant(participantId uint, talkId uint) error {

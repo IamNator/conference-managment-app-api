@@ -37,6 +37,11 @@ type (
 		RefreshToken string    `json:"refresh_token"`
 		RefreshExp   time.Time `json:"refresh_exp"`
 	}
+
+	UserLogOutReq struct {
+		RefreshToken string `json:"refresh_token"`
+		AccessToken  string `json:"access_token"`
+	}
 )
 
 func (User) TableName() string {
@@ -73,5 +78,14 @@ func (u UserLoginReq) Validate() error {
 		validation.Field(&u.Password, validation.Required, validation.Length(5, 50)),
 		// Email cannot be empty and should be in a valid email format.
 		validation.Field(&u.Email, validation.Required, is.Email),
+	)
+}
+
+func (u UserLogOutReq) Validate() error {
+	return validation.ValidateStruct(&u,
+		// Password cannot be empty, and the length must between 5 and 50
+		validation.Field(&u.RefreshToken, validation.Required),
+		// Email cannot be empty and should be in a valid email format.
+		validation.Field(&u.RefreshToken, validation.Required),
 	)
 }

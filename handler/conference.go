@@ -6,25 +6,25 @@ import (
 	"net/http"
 )
 
-func (h *Handlers) CreateConference(c *gin.Context) {
+func (h *Handlers) CreateConference(ctx *gin.Context) {
 
-	var confReq model.CreateConferenceReq
-	if er := c.BindJSON(&confReq); er != nil {
-		c.String(http.StatusBadRequest, er.Error())
+	var Req model.CreateConferenceReq
+	if er := ctx.BindJSON(&Req); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
 		return
 	}
 
-	if er := confReq.Validate(); er != nil {
-		c.String(http.StatusBadRequest, er.Error())
+	if er := Req.Validate(); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
 		return
 	}
 
-	conf, er := h.confSrv.CreateConference(model.CreateConferenceReq{})
+	conf, er := h.confSrv.CreateConference(Req)
 	if er != nil {
-		c.String(http.StatusUnprocessableEntity, er.Error())
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
 		return
 	}
-	c.JSONP(http.StatusCreated, conf)
+	ctx.JSONP(http.StatusCreated, conf)
 }
 
 func (h *Handlers) UpdateConference(ctx *gin.Context) {
@@ -38,6 +38,14 @@ func (h *Handlers) UpdateConference(ctx *gin.Context) {
 		ctx.String(http.StatusBadRequest, er.Error())
 		return
 	}
+
+	conf, er := h.confSrv.UpdateConference(Req)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
+
+	ctx.JSONP(http.StatusOK, conf)
 }
 func (h *Handlers) CreateTalk(ctx *gin.Context) {
 	var Req model.CreateTalkReq
@@ -50,6 +58,14 @@ func (h *Handlers) CreateTalk(ctx *gin.Context) {
 		ctx.String(http.StatusBadRequest, er.Error())
 		return
 	}
+
+	talk, er := h.confSrv.CreateTalk(Req)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
+
+	ctx.JSONP(http.StatusCreated, talk)
 }
 
 func (h *Handlers) UpdateTalk(ctx *gin.Context) {
@@ -63,6 +79,14 @@ func (h *Handlers) UpdateTalk(ctx *gin.Context) {
 		ctx.String(http.StatusBadRequest, er.Error())
 		return
 	}
+
+	talk, er := h.confSrv.UpdateTalk(Req)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
+
+	ctx.JSONP(http.StatusOK, talk)
 }
 
 func (h *Handlers) AddSpeaker(ctx *gin.Context) {
@@ -76,10 +100,58 @@ func (h *Handlers) AddSpeaker(ctx *gin.Context) {
 		ctx.String(http.StatusBadRequest, er.Error())
 		return
 	}
+
+	speaker, er := h.confSrv.AddSpeaker(1, Req)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
+
+	ctx.JSONP(http.StatusCreated, speaker)
 }
 
-func (h *Handlers) GetSpeaker(ctx *gin.Context)    {}
-func (h *Handlers) RemoveSpeaker(ctx *gin.Context) {}
+func (h *Handlers) GetSpeaker(ctx *gin.Context) {
+
+	var Req model.GetSpeakerReq
+	if er := ctx.BindQuery(&Req); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	if er := Req.Validate(); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	speakers, er := h.confSrv.GetSpeakers(Req.TalkId, Req.Page, Req.PageSize)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
+
+	ctx.JSONP(http.StatusOK, speakers)
+}
+
+func (h *Handlers) RemoveSpeaker(ctx *gin.Context) {
+	var Req model.RemoveSpeakerReq
+	if er := ctx.BindQuery(&Req); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	if er := Req.Validate(); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	er := h.confSrv.RemoveSpeaker(Req.SpeakerID, Req.TalkID)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
+
+	ctx.JSONP(http.StatusOK, "successful")
+}
 
 func (h *Handlers) AddParticipant(ctx *gin.Context) {
 
@@ -93,10 +165,119 @@ func (h *Handlers) AddParticipant(ctx *gin.Context) {
 		ctx.String(http.StatusBadRequest, er.Error())
 		return
 	}
-}
-func (h *Handlers) RemoveParticipant(ctx *gin.Context) {}
-func (h *Handlers) GetParticipant(ctx *gin.Context)    {}
+	participant, er := h.confSrv.AddParticipant(1, Req)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
 
-func (h *Handlers) GetTalks(ctx *gin.Context)       {}
-func (h *Handlers) GetConferences(ctx *gin.Context) {}
-func (h *Handlers) GetEditHistory(ctx *gin.Context) {}
+	ctx.JSONP(http.StatusCreated, participant)
+
+}
+
+func (h *Handlers) RemoveParticipant(ctx *gin.Context) {
+	var Req model.RemoveParticipantReq
+	if er := ctx.BindQuery(&Req); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	if er := Req.Validate(); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	er := h.confSrv.RemoveParticipant(Req.ParticipantID, Req.TalkID)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
+
+	ctx.JSONP(http.StatusOK, "successful")
+}
+
+func (h *Handlers) GetParticipant(ctx *gin.Context) {
+	var Req model.GetParticipantReq
+	if er := ctx.BindQuery(&Req); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	if er := Req.Validate(); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	speakers, er := h.confSrv.GetParticipants(Req.TalkId, Req.Page, Req.PageSize)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
+
+	ctx.JSONP(http.StatusOK, speakers)
+}
+
+func (h *Handlers) GetTalks(ctx *gin.Context) {
+	var Req model.GetTalkReq
+	if er := ctx.BindQuery(&Req); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	if er := Req.Validate(); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	speakers, er := h.confSrv.GetTalks(Req.ConferenceId, Req.Page, Req.PageSize)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
+
+	ctx.JSONP(http.StatusOK, speakers)
+}
+
+func (h *Handlers) GetConferences(ctx *gin.Context) {
+
+	var Req model.GetConferenceReq
+	if er := ctx.BindQuery(&Req); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	if er := Req.Validate(); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	speakers, er := h.confSrv.GetConferences(Req.Page, Req.PageSize)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
+
+	ctx.JSONP(http.StatusOK, speakers)
+}
+
+func (h *Handlers) GetEditHistory(ctx *gin.Context) {
+
+	var Req model.GetEditHistoryReq
+	if er := ctx.BindQuery(&Req); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	if er := Req.Validate(); er != nil {
+		ctx.String(http.StatusBadRequest, er.Error())
+		return
+	}
+
+	speakers, er := h.confSrv.GetEditHistory(Req.ConferenceId, Req.Page, Req.PageSize)
+	if er != nil {
+		ctx.String(http.StatusUnprocessableEntity, er.Error())
+		return
+	}
+
+	ctx.JSONP(http.StatusOK, speakers)
+}

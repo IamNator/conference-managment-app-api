@@ -124,6 +124,36 @@ func (mr *MockIConferenceServiceMockRecorder) GetEditHistory(conferenceId, page,
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetEditHistory", reflect.TypeOf((*MockIConferenceService)(nil).GetEditHistory), conferenceId, page, pageSize)
 }
 
+// GetParticipants mocks base method.
+func (m *MockIConferenceService) GetParticipants(talkId uint, page, pageSize int) ([]model.Participant, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetParticipants", talkId, page, pageSize)
+	ret0, _ := ret[0].([]model.Participant)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetParticipants indicates an expected call of GetParticipants.
+func (mr *MockIConferenceServiceMockRecorder) GetParticipants(talkId, page, pageSize interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetParticipants", reflect.TypeOf((*MockIConferenceService)(nil).GetParticipants), talkId, page, pageSize)
+}
+
+// GetSpeakers mocks base method.
+func (m *MockIConferenceService) GetSpeakers(talkId uint, page, pageSize int) ([]model.Speaker, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetSpeakers", talkId, page, pageSize)
+	ret0, _ := ret[0].([]model.Speaker)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetSpeakers indicates an expected call of GetSpeakers.
+func (mr *MockIConferenceServiceMockRecorder) GetSpeakers(talkId, page, pageSize interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetSpeakers", reflect.TypeOf((*MockIConferenceService)(nil).GetSpeakers), talkId, page, pageSize)
+}
+
 // GetTalks mocks base method.
 func (m *MockIConferenceService) GetTalks(conferenceId uint, page, pageSize int) ([]model.Talk, error) {
 	m.ctrl.T.Helper()

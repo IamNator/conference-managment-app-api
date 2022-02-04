@@ -10,7 +10,7 @@ import (
 type IUserService interface {
 	Login(req model.UserLoginReq) (*model.UserAuthResponse, error)
 	RegisterUser(req model.UserSignUpReq) (*model.UserAuthResponse, error)
-	LogOut(refresh string) error
+	LogOut(refresh, access string) error
 }
 
 type UserService struct {
@@ -66,6 +66,6 @@ func (c *UserService) RegisterUser(req model.UserSignUpReq) (*model.UserAuthResp
 	}, nil
 }
 
-func (c *UserService) LogOut(refreshToken string) error {
+func (c *UserService) LogOut(refreshToken, accessToken string) error {
 	return nil
 }

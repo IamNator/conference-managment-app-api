@@ -17,11 +17,11 @@ type IConferenceRepository interface {
 	GetTalks(conferenceId uint, page, pageSize int) ([]model.Talk, error)
 
 	CreateSpeaker(speaker model.Speaker) (*model.Speaker, error)
-	GetSpeakers(TalkId uint, page, pageSize int) ([]model.Talk, error)
+	GetSpeakers(TalkId uint, page, pageSize int) ([]model.Speaker, error)
 	DeleteSpeaker(speakerId, talkId uint) error
 
 	CreateParticipant(participant model.Participant) (*model.Participant, error)
-	GetParticipants(TalkId uint, page, pageSize int) ([]model.Talk, error)
+	GetParticipants(TalkId uint, page, pageSize int) ([]model.Participant, error)
 	DeleteParticipant(participantId, talkId uint) error
 
 	SaveEditHistory(history model.EditHistory) error
@@ -86,8 +86,8 @@ func (c *ConferenceRepository) CreateSpeaker(speaker model.Speaker) (*model.Spea
 	return &model.Speaker{}, nil
 }
 
-func (c *ConferenceRepository) GetSpeakers(TalkId uint, page, pageSize int) ([]model.Talk, error) {
-	return []model.Talk{}, nil
+func (c *ConferenceRepository) GetSpeakers(TalkId uint, page, pageSize int) ([]model.Speaker, error) {
+	return []model.Speaker{}, nil
 }
 
 func (c *ConferenceRepository) DeleteSpeaker(speakerId, talkId uint) error {
@@ -100,8 +100,8 @@ func (c *ConferenceRepository) CreateParticipant(participant model.Participant) 
 	return &model.Participant{}, nil
 }
 
-func (c *ConferenceRepository) GetParticipants(TalkId uint, page, pageSize int) ([]model.Talk, error) {
-	return []model.Talk{}, nil
+func (c *ConferenceRepository) GetParticipants(TalkId uint, page, pageSize int) ([]model.Participant, error) {
+	return []model.Participant{}, nil
 }
 
 func (c *ConferenceRepository) DeleteParticipant(participantId, talkId uint) error {
