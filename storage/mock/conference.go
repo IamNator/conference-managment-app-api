@@ -155,9 +155,9 @@ func (mr *MockIConferenceRepositoryMockRecorder) GetTalks(conferenceId, page, pa
 }
 
 // SaveConference mocks base method.
-func (m *MockIConferenceRepository) SaveConference(conference model.Conference) (*model.Conference, error) {
+func (m *MockIConferenceRepository) createConference(conference model.Conference) (*model.Conference, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "SaveConference", conference)
+	ret := m.ctrl.Call(m, "createConference", conference)
 	ret0, _ := ret[0].(*model.Conference)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
@@ -166,7 +166,7 @@ func (m *MockIConferenceRepository) SaveConference(conference model.Conference) 
 // SaveConference indicates an expected call of SaveConference.
 func (mr *MockIConferenceRepositoryMockRecorder) SaveConference(conference interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "SaveConference", reflect.TypeOf((*MockIConferenceRepository)(nil).SaveConference), conference)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "createConference", reflect.TypeOf((*MockIConferenceRepository)(nil).createConference), conference)
 }
 
 // SaveEditHistory mocks base method.

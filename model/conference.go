@@ -61,7 +61,24 @@ type (
 		EndDate     time.Time `json:"end_date"`
 	}
 
+	UpdateConferenceReq struct {
+		ConferenceID uint      `json:"conference_id"`
+		Title        string    `json:"title"`
+		Description  string    `json:"description"`
+		StartDate    time.Time `json:"start_date"`
+		EndDate      time.Time `json:"end_date"`
+	}
+
 	CreateTalkReq struct {
+		ConferenceID uint          `json:"conference_id"`
+		Title        string        `json:"title"`
+		Description  string        `json:"description"`
+		Duration     time.Duration `json:"duration"`
+		DateTime     time.Time     `json:"date_time"`
+	}
+
+	UpdateTalkReq struct {
+		TalkID       uint          `json:"talk_id"`
 		ConferenceID uint          `json:"conference_id"`
 		Title        string        `json:"title"`
 		Description  string        `json:"description"`
@@ -103,8 +120,29 @@ func (c CreateConferenceReq) Validate() error {
 	)
 }
 
+func (c UpdateConferenceReq) Validate() error {
+	return validation.ValidateStruct(&c,
+		validation.Field(&c.ConferenceID, validation.Required),
+		validation.Field(&c.Title, validation.Required, validation.Length(1, 50)),
+		validation.Field(&c.Description, validation.Required, validation.Length(5, 1000)),
+		validation.Field(&c.StartDate, validation.Required),
+		validation.Field(&c.EndDate, validation.Required),
+	)
+}
+
 func (c CreateTalkReq) Validate() error {
 	return validation.ValidateStruct(&c,
+		validation.Field(&c.Title, validation.Required, validation.Length(1, 50)),
+		validation.Field(&c.Description, validation.Required, validation.Length(5, 1000)),
+		validation.Field(&c.DateTime, validation.Required),
+		validation.Field(&c.ConferenceID, validation.Required),
+		validation.Field(&c.Duration, validation.Required),
+	)
+}
+
+func (c UpdateTalkReq) Validate() error {
+	return validation.ValidateStruct(&c,
+		validation.Field(&c.TalkID, validation.Required),
 		validation.Field(&c.Title, validation.Required, validation.Length(1, 50)),
 		validation.Field(&c.Description, validation.Required, validation.Length(5, 1000)),
 		validation.Field(&c.DateTime, validation.Required),

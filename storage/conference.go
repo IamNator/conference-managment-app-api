@@ -7,7 +7,7 @@ import (
 
 //go:generate mockgen -source conference.go -destination ./mock/conference.go -package mock IConferenceRepository
 type IConferenceRepository interface {
-	SaveConference(conference model.Conference) (*model.Conference, error)
+	CreateConference(conference model.Conference) (*model.Conference, error)
 	UpdateConference(conference model.Conference) (*model.Conference, error)
 	GetConference(conferenceId uint, page, pageSize int) ([]model.Conference, error)
 	GetAllConference(page, pageSize int) ([]model.Conference, error)
@@ -50,7 +50,7 @@ func (c *ConferenceRepository) WithTx(db *gorm.DB) IConferenceRepository {
 
 //CONFERENCES
 
-func (c *ConferenceRepository) SaveConference(conference model.Conference) (*model.Conference, error) {
+func (c *ConferenceRepository) CreateConference(conference model.Conference) (*model.Conference, error) {
 	return &model.Conference{}, nil
 }
 

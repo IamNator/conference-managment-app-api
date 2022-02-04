@@ -1,0 +1,57 @@
+[
+  {
+    "error": "title: the length must be between 1 and 50.",
+    "req": {
+      "conference_id": 2732,
+      "title": "The kind ream purely sleepily cut an awful basket barely roughly.",
+      "description": "The funny seafood jump highly badly.",
+      "start_date": "2022-02-01T18:25:43.511Z",
+      "end_date": "2022-03-01T18:25:43.511Z"
+    }
+  },
+  {
+    "req":{
+      "conference_id": 2732,
+      "title": "A youth wearily climb smoke.",
+      "description": "An air scarcely so fly closely from a comb indeed promptly.",
+      "start_date": "2022-02-01T18:25:43.511Z",
+      "end_date": "2022-03-01T18:25:43.511Z"
+    }
+  },
+  {
+    "req":{
+      "conference_id": 2732,
+      "title": "The school fight a terrible time joyously.",
+      "description": "The divorce talk exciting posse thoroughly reluctantly to the inexpensive point.",
+      "start_date": "2022-02-01T18:25:43.511Z",
+      "end_date": "2022-03-01T18:25:43.511Z"
+    }
+  },
+  {
+    "req":{
+      "conference_id": 2732,
+      "title": "The cloud cut.",
+      "description": "Inquiring son fight the leap fondly how hurriedly.",
+      "start_date": "2022-02-01T18:25:43.511Z",
+      "end_date": "2022-03-01T18:25:43.511Z"
+    }
+  },
+  {
+    "error": "title: cannot be blank.",
+    "req":{
+      "conference_id": 2732,
+      "description": "Inquiring son fight the leap fondly how hurriedly.",
+      "start_date": "2022-02-01T18:25:43.511Z",
+      "end_date": "2022-03-01T18:25:43.511Z"
+    }
+  },
+  {
+    "error": "conference_id: cannot be blank.",
+    "req":{
+      "title": "A thankful mob watch.",
+      "description": "Inquiring son fight the leap fondly how hurriedly.",
+      "start_date": "2022-02-01T18:25:43.511Z",
+      "end_date": "2022-03-01T18:25:43.511Z"
+    }
+  }
+]
