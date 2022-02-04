@@ -5,6 +5,7 @@ import (
 	"github.com/rs/zerolog"
 	"gorm.io/gorm"
 	"os"
+	"time"
 )
 
 //go:generate mockgen -source user.go -destination ./mock/user.go -package mock IUserRepository
@@ -12,6 +13,7 @@ type IUserRepository interface {
 	CreateUser(user model.User) (*model.User, error)
 	GetUserByEmail(email string) (*model.User, error)
 	UpdateUserPassword(email, password string) error
+	UpdateLastLoggedIn(email string, when time.Time) error
 	WithTx(db *gorm.DB) IUserRepository
 }
 
@@ -63,6 +65,17 @@ func (u *UserRepository) UpdateUserPassword(email, password string) error {
 	p := model.Password(password)
 	p = p.Hash()
 	er := u.storage.db.Where("email = ?", email).Updates(model.User{Email: email, Password: p}).Error
+	if er != nil {
+		u.logger.Error().Err(er).Msg("unable to user password")
+		return er
+	}
+
+	return nil
+}
+
+func (u *UserRepository) UpdateLastLoggedIn(email string, when time.Time) error {
+
+	er := u.storage.db.Where("email = ?", email).Updates(model.User{Email: email, LastLoggedIn: &when}).Error
 	if er != nil {
 		u.logger.Error().Err(er).Msg("unable to user password")
 		return er

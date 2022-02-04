@@ -5,6 +5,8 @@ import (
 	"conference/pkg/middleware"
 	"conference/storage"
 	"errors"
+	"log"
+	"time"
 )
 
 //go:generate mockgen -source user.go -destination ./mock/user_service.go -package mock IUserService
@@ -35,6 +37,10 @@ func (c *UserService) Login(req model.UserLoginReq) (*model.UserAuthResponse, er
 
 	if !user.Password.Compare(req.Password.String()) {
 		return nil, errors.New("incorrect login details")
+	}
+
+	if er := c.UserRepo.UpdateLastLoggedIn(user.Email, time.Now()); er != nil {
+		log.Println(er.Error())
 	}
 
 	auth, er := c.MidWare.GenerateToken(*user)
