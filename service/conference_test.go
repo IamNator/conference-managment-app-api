@@ -35,14 +35,28 @@ func TestConferenceService_CreateConference(t *testing.T) {
 		}
 
 		mockConfRepo := mock.NewMockIConferenceRepository(ctrl)
-		mockConfRepo.EXPECT().CreateConference(mm).Return(&mm, nil)
+		mockConfRepo.EXPECT().CreateConference(mm).Return(&model.Conference{
+			General: model.General{
+				ID: uint(i),
+			},
+			Title:       v.Req.Title,
+			Description: v.Req.Description,
+			StartDate:   v.Req.StartDate,
+			EndDate:     v.Req.EndDate,
+		}, nil)
+		mockConfRepo.EXPECT().SaveEditHistory(model.EditHistory{
+			ConferenceID:     uint(i),
+			PropertyAffected: "conference",
+			Action:           "created conference",
+			By:               "username",
+		}).Return(nil)
 
 		srv := service.ConferenceService{
 			ConferenceRepo: mockConfRepo,
 		}
 
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
-			_, er := srv.CreateConference(v.Req)
+			_, er := srv.CreateConference("username", v.Req)
 			if er != nil {
 				t.Error(er.Error())
 			}
@@ -80,13 +94,19 @@ func TestConferenceService_UpdateConference(t *testing.T) {
 
 		mockConfRepo := mock.NewMockIConferenceRepository(ctrl)
 		mockConfRepo.EXPECT().UpdateConference(mm).Return(&mm, nil)
+		mockConfRepo.EXPECT().SaveEditHistory(model.EditHistory{
+			ConferenceID:     v.Req.ConferenceID,
+			PropertyAffected: "conference",
+			Action:           "updated conference",
+			By:               "username",
+		}).Return(nil)
 
 		srv := service.ConferenceService{
 			ConferenceRepo: mockConfRepo,
 		}
 
 		t.Run(fmt.Sprintf("test: %d", i), func(t *testing.T) {
-			_, er := srv.UpdateConference(v.Req)
+			_, er := srv.UpdateConference("username", v.Req)
 			if er != nil {
 				t.Error(er.Error())
 			}

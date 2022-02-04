@@ -2,6 +2,7 @@ package service_test
 
 import (
 	"conference/model"
+	midwareMock "conference/pkg/middleware/mock"
 	"conference/service"
 	"conference/storage/mock"
 	"conference/testdata"
@@ -12,6 +13,7 @@ import (
 )
 
 func TestUserService_RegisterUser(t *testing.T) {
+
 	type tData struct {
 		Req   model.UserSignUpReq `json:"req"`
 		Error string              `json:"error"`
@@ -37,6 +39,7 @@ func TestUserService_RegisterUser(t *testing.T) {
 		}
 
 		mockUserRepo := mock.NewMockIUserRepository(ctrl)
+		mockMidWare := midwareMock.NewMockIMiddleware(ctrl)
 		mockUserRepo.EXPECT().CreateUser(model.User{
 			Username: mm.Username,
 			Email:    mm.Email,
@@ -44,8 +47,13 @@ func TestUserService_RegisterUser(t *testing.T) {
 		}).Return(&mm, nil)
 		mockUserRepo.EXPECT().GetUserByEmail(mm.Email).Return(nil, nil)
 
+		mockMidWare.EXPECT().GenerateToken(mm).Return(&model.UserAuthResponse{
+			User: mm,
+		}, nil)
+
 		srv := service.UserService{
 			UserRepo: mockUserRepo,
+			MidWare:  mockMidWare,
 		}
 
 		t.Run(strconv.Itoa(i), func(t *testing.T) {

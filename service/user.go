@@ -16,13 +16,13 @@ type IUserService interface {
 
 type UserService struct {
 	UserRepo storage.IUserRepository
-	midWare  *middleware.Middleware
+	MidWare  middleware.IMiddleware
 }
 
 func NewUserService(s *storage.Storage) IUserService {
 	return &UserService{
 		UserRepo: storage.NewUserRepository(s),
-		midWare:  middleware.NewMiddleWare(),
+		MidWare:  middleware.NewMiddleWare(),
 	}
 }
 
@@ -37,7 +37,7 @@ func (c *UserService) Login(req model.UserLoginReq) (*model.UserAuthResponse, er
 		return nil, errors.New("incorrect login details")
 	}
 
-	auth, er := c.midWare.GenerateToken(*user)
+	auth, er := c.MidWare.GenerateToken(*user)
 	if er != nil {
 		return nil, er
 	}
@@ -62,7 +62,7 @@ func (c *UserService) RegisterUser(req model.UserSignUpReq) (*model.UserAuthResp
 	}
 
 	///add auth
-	auth, er := c.midWare.GenerateToken(*user)
+	auth, er := c.MidWare.GenerateToken(*user)
 	if er != nil {
 		return nil, er
 	}

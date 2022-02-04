@@ -1,6 +1,6 @@
 [
   {
-    "error": "username: cannot be blank.",
+    "error": "conference_id: cannot be blank; username: cannot be blank.",
     "req": {
       "talk_id": 333,
       "email": "ralphshanahan@schumm.io"

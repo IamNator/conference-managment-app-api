@@ -9,6 +9,12 @@ import (
 
 var jwtKey = []byte("my_secret_key")
 
+//go:generate mockgen -source jwt.go -destination ./mock/jwt.go -package mock IMiddleware
+type IMiddleware interface {
+	GenerateToken(user model.User) (*model.UserAuthResponse, error)
+	Verify(accessToken string) (*Claims, error)
+}
+
 type Middleware struct {
 	AccessTokenDuration time.Duration
 	JWTSecretKey        []byte

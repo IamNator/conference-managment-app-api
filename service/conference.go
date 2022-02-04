@@ -57,7 +57,7 @@ func (c *ConferenceService) CreateConference(username string, conference model.C
 	er = c.ConferenceRepo.SaveEditHistory(model.EditHistory{
 		ConferenceID:     resp.ID,
 		PropertyAffected: "conference",
-		Action:           "create",
+		Action:           "created conference",
 		By:               username,
 	})
 	if er != nil {
