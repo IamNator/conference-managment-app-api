@@ -3,6 +3,7 @@ package model
 import (
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"
+	"gorm.io/gorm"
 	"strings"
 	"time"
 )
@@ -46,6 +47,10 @@ type (
 
 func (User) TableName() string {
 	return "user"
+}
+
+func (u User) CreateTable(tx *gorm.DB) error {
+	return tx.AutoMigrate(u)
 }
 
 //TODO

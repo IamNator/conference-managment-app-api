@@ -32,15 +32,16 @@ func (u *UserRepository) WithTx(db *gorm.DB) IUserRepository {
 }
 
 func (u *UserRepository) CreateUser(user model.User) (*model.User, error) {
-	return &user, nil
+	return &user, u.storage.db.Create(&user).Error
 }
 
 func (u *UserRepository) GetUserByEmail(email string) (*model.User, error) {
-	return &model.User{
-		Email: email,
-	}, nil
+	var user model.User
+	return &user, u.storage.db.First(&user, "email = ? ", email).Error
 }
 
 func (u *UserRepository) UpdateUserPassword(email, password string) error {
-	return nil
+	p := model.Password(password)
+	p = p.Hash()
+	return u.storage.db.Where("email = ?", email).Updates(model.User{Email: email, Password: p}).Error
 }

@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"conference/model"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
@@ -25,4 +26,38 @@ func New() *Storage {
 	return &Storage{
 		db: db,
 	}
+}
+
+func (s *Storage) RunMigration() error {
+
+	er := model.User{}.CreateTable(s.db)
+	if er != nil {
+		return er
+	}
+
+	er = model.Conference{}.CreateTable(s.db)
+	if er != nil {
+		return er
+	}
+
+	er = model.Talk{}.CreateTable(s.db)
+	if er != nil {
+		return er
+	}
+
+	er = model.Speaker{}.CreateTable(s.db)
+	if er != nil {
+		return er
+	}
+	er = model.Participant{}.CreateTable(s.db)
+	if er != nil {
+		return er
+	}
+
+	er = model.EditHistory{}.CreateTable(s.db)
+	if er != nil {
+		return er
+	}
+
+	return nil
 }

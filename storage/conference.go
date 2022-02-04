@@ -51,67 +51,73 @@ func (c *ConferenceRepository) WithTx(db *gorm.DB) IConferenceRepository {
 //CONFERENCES
 
 func (c *ConferenceRepository) CreateConference(conference model.Conference) (*model.Conference, error) {
-	return &model.Conference{}, nil
+	return &conference, c.storage.db.Create(&conference).Error
 }
 
 func (c *ConferenceRepository) UpdateConference(conference model.Conference) (*model.Conference, error) {
-	return &model.Conference{}, nil
+	return &conference, c.storage.db.Where("id = ?", conference.ID).Updates(&conference).Error
 }
 
 func (c *ConferenceRepository) GetConference(conferenceId uint, page, pageSize int) ([]model.Conference, error) {
-	return []model.Conference{}, nil
+	var conferences []model.Conference
+	return conferences, c.storage.db.Scopes(model.Paginate(page, pageSize)).Where("conference_id = ?", conferenceId).First(&conferences).Error
 }
 
 func (c *ConferenceRepository) GetAllConference(page, pageSize int) ([]model.Conference, error) {
-	return []model.Conference{}, nil
+	var conferences []model.Conference
+	return conferences, c.storage.db.Scopes(model.Paginate(page, pageSize)).Find(&conferences).Error
 }
 
 //TALKS
 
 func (c *ConferenceRepository) CreateTalk(talk model.Talk) (*model.Talk, error) {
-	return &model.Talk{}, nil
+	return &talk, c.storage.db.Create(&talk).Error
 }
 
 func (c *ConferenceRepository) GetTalks(conferenceId uint, page, pageSize int) ([]model.Talk, error) {
-	return []model.Talk{}, nil
+	var talks []model.Talk
+	return talks, c.storage.db.Scopes(model.Paginate(page, pageSize)).Find(&talks).Error
 }
 
 func (c *ConferenceRepository) UpdateTalk(talk model.Talk) (*model.Talk, error) {
-	return &model.Talk{}, nil
+	return &talk, c.storage.db.Where("id = ?", talk.ID).Updates(&talk).Error
 }
 
 //SPEAKERS
 
 func (c *ConferenceRepository) CreateSpeaker(speaker model.Speaker) (*model.Speaker, error) {
-	return &model.Speaker{}, nil
+	return &speaker, c.storage.db.Create(&speaker).Error
 }
 
 func (c *ConferenceRepository) GetSpeakers(TalkId uint, page, pageSize int) ([]model.Speaker, error) {
-	return []model.Speaker{}, nil
+	var speakers []model.Speaker
+	return speakers, c.storage.db.Where("talk_id = ?", TalkId).Scopes(model.Paginate(page, pageSize)).Find(&speakers).Error
 }
 
 func (c *ConferenceRepository) DeleteSpeaker(speakerId, talkId uint) error {
-	return nil
+	return c.storage.db.Delete(&model.Speaker{}, "id = ? AND talk_id = ?", speakerId, talkId).Error
 }
 
 // PARTICIPANTS
 
 func (c *ConferenceRepository) CreateParticipant(participant model.Participant) (*model.Participant, error) {
-	return &model.Participant{}, nil
+	return &participant, c.storage.db.Create(&participant).Error
 }
 
 func (c *ConferenceRepository) GetParticipants(TalkId uint, page, pageSize int) ([]model.Participant, error) {
-	return []model.Participant{}, nil
+	var participants []model.Participant
+	return participants, c.storage.db.Scopes(model.Paginate(page, pageSize)).Where("talk_id = ?", TalkId).Find(&participants).Error
 }
 
 func (c *ConferenceRepository) DeleteParticipant(participantId, talkId uint) error {
-	return nil
+	return c.storage.db.Delete(&model.Participant{}, "id = ? AND talk_id = ?", participantId, talkId).Error
 }
 
 func (c *ConferenceRepository) SaveEditHistory(history model.EditHistory) error {
-	return nil
+	return c.storage.db.Create(&history).Error
 }
 
 func (c *ConferenceRepository) GetEditHistory(conferenceID uint, page, pageSize int) ([]model.EditHistory, error) {
-	return []model.EditHistory{}, nil
+	var history []model.EditHistory
+	return history, c.storage.db.Scopes(model.Paginate(page, pageSize)).Find(&history, "conference_id = ?", conferenceID).Error
 }

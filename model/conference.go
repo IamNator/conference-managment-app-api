@@ -3,6 +3,7 @@ package model
 import (
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -64,6 +65,48 @@ type (
 		General
 	}
 )
+
+func (c Conference) Table(tx *gorm.DB) string {
+	return "conference"
+}
+
+func (t Talk) Table(tx *gorm.DB) string {
+	return "talk"
+}
+
+func (s Speaker) Table(tx *gorm.DB) string {
+	return "speaker"
+}
+
+func (s Participant) Table(tx *gorm.DB) string {
+	return "participant"
+}
+
+func (e EditHistory) Table(tx *gorm.DB) string {
+	return "edit_history"
+}
+
+//
+
+func (c Conference) CreateTable(tx *gorm.DB) error {
+	return tx.AutoMigrate(c)
+}
+
+func (t Talk) CreateTable(tx *gorm.DB) error {
+	return tx.AutoMigrate(t)
+}
+
+func (s Speaker) CreateTable(tx *gorm.DB) error {
+	return tx.AutoMigrate(s)
+}
+
+func (s Participant) CreateTable(tx *gorm.DB) error {
+	return tx.AutoMigrate(s)
+}
+
+func (e EditHistory) CreateTable(tx *gorm.DB) error {
+	return tx.AutoMigrate(e)
+}
 
 type (
 	CreateConferenceReq struct {
