@@ -2,6 +2,7 @@ package model
 
 import (
 	"conference/testdata"
+	"fmt"
 	"github.com/stretchr/testify/assert"
 	"strconv"
 	"testing"
@@ -53,10 +54,47 @@ func TestUserLoginReq_Validate(t *testing.T) {
 }
 
 func TestPassword_Compare(t *testing.T) {
-	inputtedPassword := "password"
-	actualPassword := Password("password")
 
-	assert.Equal(t, actualPassword.Compare(inputtedPassword), true)
+	tt := []struct {
+		Password     Password `json:"password"`
+		HashPassword Password `json:"hash_password"`
+		Error        bool     `json:"error"`
+	}{
+		{
+			Password:     "pass",
+			HashPassword: Password("pass").Hash(),
+			Error:        false,
+		},
+		{
+			Password:     "pass",
+			HashPassword: Password("passd").Hash(),
+			Error:        true,
+		},
+		{
+			Password:     "pass",
+			HashPassword: Password("pass").Hash(),
+			Error:        false,
+		},
+		{
+			Password:     "password",
+			HashPassword: Password("password").Hash(),
+			Error:        false,
+		},
+		{
+			Password:     "passworrr",
+			HashPassword: Password("pass").Hash(),
+			Error:        true,
+		},
+	}
+
+	for i, v := range tt {
+		t.Run(fmt.Sprintf("test: %d", i), func(t *testing.T) {
+			assert.Equal(t, true, len(v.HashPassword) > 50)
+			assert.Equal(t, !v.Error, v.HashPassword.Compare(v.Password.String()))
+			assert.Equal(t, !v.Error, v.HashPassword.Hash().Compare(v.Password.String()))
+			assert.NotEqual(t, v.HashPassword, v.Password)
+		})
+	}
 
 }
 

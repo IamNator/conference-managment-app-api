@@ -3,8 +3,9 @@ package model
 import (
 	validation "github.com/go-ozzo/ozzo-validation"
 	"github.com/go-ozzo/ozzo-validation/is"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	"strings"
+	"log"
 	"time"
 )
 
@@ -55,11 +56,22 @@ func (u User) CreateTable(tx *gorm.DB) error {
 
 //TODO
 func (p Password) Hash() Password {
-	return p + Password("000")
+	//return if password is already hashed
+	if len(p.String()) > 50 {
+		return p
+	}
+
+	hashedPassword, er := bcrypt.GenerateFromPassword([]byte(p.String()), bcrypt.DefaultCost)
+	if er != nil {
+		log.Println(er.Error())
+	}
+
+	return Password(hashedPassword)
 }
 
 func (p Password) Compare(password string) bool {
-	return strings.TrimPrefix(p.String(), "000") == password
+	return bcrypt.CompareHashAndPassword([]byte(p.String()), []byte(password)) == nil
+
 }
 
 func (p Password) String() string {
