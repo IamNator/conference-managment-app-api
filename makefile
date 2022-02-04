@@ -11,6 +11,3 @@ quality:
 
 run:
 	fresh -c fresh-custom-runner.conf
-
-
-test_coverage:
