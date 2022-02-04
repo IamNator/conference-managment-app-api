@@ -2,6 +2,7 @@ package routes
 
 import (
 	"conference/handler"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
@@ -15,8 +16,9 @@ func Run(h handler.IHandler, port string) error {
 	router := gin.Default()
 	router.GET("", func(ctx *gin.Context) {
 		docs := os.Getenv("API_DOCS_URL")
-		ctx.Redirect(http.StatusOK, docs)
+		ctx.Data(http.StatusOK, "text/html", []byte(fmt.Sprintf(`<html><head><a href="%s">click here for docs</a></head></html>`, docs)))
 	})
+
 	routerV1 := router.Group("/v1")
 
 	userRouter := routerV1.Group("/user")
