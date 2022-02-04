@@ -27,3 +27,6 @@ func (h *Handlers) LoginUser(c *gin.Context) {
 
 	c.JSONP(http.StatusOK, resp)
 }
+
+func (h *Handlers) RegisterUser(ctx *gin.Context) {}
+func (h *Handlers) LogOutUser(ctx *gin.Context)   {}

@@ -5,13 +5,23 @@ import (
 	"conference/routes"
 	"conference/service"
 	"conference/storage"
-	"log"
+	"errors"
+	"github.com/joho/godotenv"
+	log "github.com/rs/zerolog"
 	"os"
 	"os/signal"
 	"syscall"
 )
 
 func main() {
+
+	logger := log.New(os.Stdout).With().Str("app", "conf_mgmt_sys").Logger()
+
+	//export env from .env file
+	if er := godotenv.Load(); er != nil {
+		logger.Warn().Err(er).Msg("no env file found")
+	}
+
 	port := os.Getenv("PORT")
 	store := storage.New()
 	userSrv := service.NewUserService(store)
@@ -33,9 +43,9 @@ func main() {
 
 	select {
 	case er := <-erChan:
-		log.Fatalln(er)
+		logger.Fatal().Err(er).Msg("server shut down")
 	case <-quit:
-		log.Println("server shut down")
+		logger.Info().Err(errors.New("shutdown signal received")).Msg("server shut down")
 	}
 
 }
