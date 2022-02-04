@@ -40,7 +40,7 @@ func (c *UserService) Login(req model.UserLoginReq) (*model.UserAuthResponse, er
 	}
 
 	if er := c.UserRepo.UpdateLastLoggedIn(user.Email, time.Now()); er != nil {
-		log.Println(er.Error())
+		log.Println(er.Error()) //just log the error
 	}
 
 	auth, er := c.MidWare.GenerateToken(*user)
