@@ -11,7 +11,7 @@ import (
 )
 
 func keyFunc(c *gin.Context) string {
-	return c.ClientIP()
+	return c.GetHeader("Authorization")
 }
 
 func errorHandler(c *gin.Context) {
