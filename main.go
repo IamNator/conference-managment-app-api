@@ -23,7 +23,11 @@ func main() {
 	}
 
 	port := os.Getenv("PORT")
-	store := storage.New()
+	store, er := storage.New()
+	if er != nil {
+		logger.Fatal().Err(er).Msg("unable to connect to database")
+		return
+	}
 	//if er := store.RunMigration(); er != nil { //
 	//	logger.Fatal().Err(er).Msg("database migration failed")
 	//}
