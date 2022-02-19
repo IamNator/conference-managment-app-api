@@ -8,6 +8,7 @@ import (
 	model "conference/model"
 	storage "conference/storage"
 	reflect "reflect"
+	time "time"
 
 	gomock "github.com/golang/mock/gomock"
 	gorm "gorm.io/gorm"
@@ -64,6 +65,20 @@ func (m *MockIUserRepository) GetUserByEmail(email string) (*model.User, error) 
 func (mr *MockIUserRepositoryMockRecorder) GetUserByEmail(email interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUserByEmail", reflect.TypeOf((*MockIUserRepository)(nil).GetUserByEmail), email)
+}
+
+// UpdateLastLoggedIn mocks base method.
+func (m *MockIUserRepository) UpdateLastLoggedIn(email string, when time.Time) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateLastLoggedIn", email, when)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateLastLoggedIn indicates an expected call of UpdateLastLoggedIn.
+func (mr *MockIUserRepositoryMockRecorder) UpdateLastLoggedIn(email, when interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateLastLoggedIn", reflect.TypeOf((*MockIUserRepository)(nil).UpdateLastLoggedIn), email, when)
 }
 
 // UpdateUserPassword mocks base method.
