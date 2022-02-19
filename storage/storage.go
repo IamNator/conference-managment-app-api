@@ -12,20 +12,20 @@ type Storage struct {
 	db *gorm.DB
 }
 
-func New() *Storage {
+func New() (*Storage, error) {
 	dsn := os.Getenv("DATABASE_URL")
 	db, err := gorm.Open(
 		postgres.Open(dsn),
 		&gorm.Config{},
 	)
 	if err != nil {
-		panic(err.Error())
+		return nil, err
 	}
 
 	log.Println("connected to database")
 	return &Storage{
 		db: db,
-	}
+	}, nil
 }
 
 func (s *Storage) RunMigration() error {
