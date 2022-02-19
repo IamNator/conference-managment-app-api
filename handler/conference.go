@@ -31,10 +31,12 @@ func (h *Handlers) CreateConference(ctx *gin.Context) {
 		ctx.String(http.StatusUnprocessableEntity, er.Error())
 		return
 	}
+
 	ctx.JSONP(http.StatusCreated, conf)
 }
 
 func (h *Handlers) UpdateConference(ctx *gin.Context) {
+
 	user, er := h.midWare.Verify(helper.GetBearerToken(ctx))
 	if er != nil {
 		ctx.String(http.StatusUnauthorized, er.Error())
